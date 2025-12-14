@@ -1,0 +1,194 @@
+/* --- 認証ページ全体レイアウト --- */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2rem 1rem;
+}
+
+/* --- カードデザイン --- */
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.384);
+  backdrop-filter: blur(3px);
+  border: 1px solid #eef2f6;
+}
+
+/* --- ヘッダー --- */
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.auth-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.auth-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* --- フォーム要素 --- */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e1e4e8;
+  border-radius: 8px;
+  box-sizing: border-box; /* パディングを含める */
+  transition: all 0.2s;
+  background-color: #fafbfc;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #5daaf5; /* primary-color */
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(93, 170, 245, 0.1);
+}
+
+.form-select {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 2px solid #e1e4e8;
+  border-radius: 8px;
+}
+
+.password-hint {
+  font-size: 0.8rem;
+  color: #888;
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+
+/* --- ボタン類 --- */
+.btn-block {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background: #5daaf5;
+  color: white;
+  border: none;
+  font-weight: bold;
+  padding: 0.9rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  background: #4a90e2;
+  transform: translateY(-2px);
+}
+
+/* Googleボタン（トップページと同じデザイン） */
+.btn-google {
+  background: #ffffff;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 0.8rem;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.btn-google:hover {
+  background-color: #f8faff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* --- 区切り線 --- */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid #e1e4e8;
+}
+.divider-text {
+  padding: 0 1rem;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* --- フッターリンク --- */
+.auth-footer-links {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+.text-link {
+  color: #5daaf5;
+  text-decoration: none;
+  font-weight: bold;
+}
+.text-link:hover {
+  text-decoration: underline;
+}
+.text-link-sm {
+  font-size: 0.85rem;
+  color: #888;
+  text-decoration: none;
+}
+.text-link-sm:hover {
+  color: #5daaf5;
+}
+
+/* --- アニメーション --- */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- モバイル対応 --- */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.5rem;
+    box-shadow: none; /* スマホではフラットに */
+    border: none;
+    background: rgba(255, 255, 255, 0.384);
+    backdrop-filter: blur(3px);
+  }
+  .auth-container {
+    padding: 0;
+  }
+}

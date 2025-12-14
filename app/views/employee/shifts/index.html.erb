@@ -1,0 +1,91 @@
+<% content_for :title, "従業員シフトページ" %>
+<%= turbo_stream_from current_user %>
+
+<% content_for :head do %>
+  <%= stylesheet_link_tag "shift/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+  <% if current_user.role == "employee" %>
+  <%= render "menu" %>
+  <% else %>
+  <%= render "work_time" %>
+  <% end %>
+
+<hr>
+<div class="flexbox">
+  <%= form_with url: employee_shifts_path,class: "flexbox", method: :get, local: true do |f| %>
+
+    <%= f.month_field :date, id: "real-month", class: "hidden-month-field"%>
+        <div class="font-large"><%= @user.name %>様</div>
+          <div id= "fake-month" class="flex-btn">
+            <%= @date_view %>
+          </div>
+   <% end %>
+       
+      <% if @today_shifts.exists? %>
+      <% is_one = @today_shifts.one? %>
+        <% @today_shifts.each do |shift| %>
+          <div class="shift-action-container text-center">
+            
+            <% unless is_one %>
+            <p>
+              <strong><%= shift.client.name %></strong><br>
+              <%= shift.start_time.strftime("%H:%M") %> - <%= shift.end_time.strftime("%H:%M") %>
+            </p>
+            <% end %>
+            
+            <div class="flexbox gap-10">
+              <%= button_to "出勤", employee_shift_path(shift), method: :patch, params: { shift: { work_status: "work" } },form: { onsubmit: "return confirm('出勤しましたか？')" }, class: "flex-btn" %>
+
+              <% if shift.client.latitude.present? && shift.client.longitude.present? %>
+                <%= link_to shift.client.google_maps_route_url_template, 
+                  target: "_blank", 
+                  rel: "noopener", 
+                  class: "flex-btn",
+                  id: "navigate-button-#{shift.id}" do %>
+
+                  <svg class="map-icon" viewBox="0 0 34 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 0C7.6 0 0 7.6 0 17C0 27.6 14.9 46.3 15.6 47.1C16.3 48.2 17.7 48.2 18.5 47.1C19.1 46.3 34 27.6 34 17C34 7.6 26.4 0 17 0Z" fill="#34A853"/>
+                    <path d="M17 0C7.6 0 0 7.6 0 17C0 19.4 0.5 21.7 1.4 23.8L17 12V0Z" fill="#E35B5B"/>
+                    <path d="M34 17C34 7.6 26.4 0 17 0V12L28.8 28.4C32 25.5 34 21.5 34 17Z" fill="#5daaf5"/>
+                    <path d="M17 12L1.4 23.8C3.1 27.2 5.7 30.1 8.7 32.2L17 12Z" fill="#fcd86dff"/>
+                    <circle cx="17" cy="17" r="6.5" fill="white"/>
+                  </svg>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+</div>
+
+  <div class="flexbox">
+    <p class="shift ex">日勤</p>
+    <p class="shift ex-night">夜勤</p>
+    <p class="shift ex-escort">同行</p>
+  </div>
+
+<div class="calendar">
+
+    <% I18n.t("date.abbr_day_names").each do |wday| %>
+      <div class="week"><%= wday %></div>
+    <% end %>
+
+    <% @first_day.wday.times do %>
+      <div class="day"></div>
+    <% end %>
+
+    <% (@first_day..@last_day).each do |date| %>
+      <div class="day <%= 'today' if date == @today %>">
+          <%= date.day %>
+
+        <div id="shifts_<%= date %>">
+          <%= render (@shifts[date] || []) %>
+        </div>
+      </div>
+    <% end %>
+
+    <% (6 - @last_day.wday).times do %>
+      <div class="day"></div>
+    <% end %>
+</div>

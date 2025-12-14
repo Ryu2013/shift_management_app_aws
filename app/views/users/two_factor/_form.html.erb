@@ -1,0 +1,26 @@
+<h3>二段階認証セットアップ</h3>
+
+<div class="flexbox">
+<p>二段階認証アプリで下記の QR コードをスキャンしてください。</p>
+</div>
+
+<div class="card flexbox">
+  <%= raw @qr_svg %>
+</div>
+
+<div class="flexbox">
+  <p>QR コードが使用できない場合は、下記のセットアップキーを手入力してください。</p>
+  <div class="font-bold font-large">
+    <%= @secret_key.scan(/.{1,4}/).join(" ") %>
+  </div>
+</div>
+
+<%= form_with url: users_confirm_two_factor_path do |f| %>
+  <%= f.label :otp_attempt, "二段階認証アプリの6桁コード" %>
+  <%= f.text_field :otp_attempt, inputmode: "numeric", pattern: "[0-9]{6}" %>
+  <div class="flexbox">
+  <%= f.submit "有効化" %>
+  </div>
+<% end %>
+
+<p class="text-center">セットアップが完了したら、次回ログイン時に二段階認証アプリのコード入力が求められます。</p>

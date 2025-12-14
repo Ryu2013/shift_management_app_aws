@@ -1,0 +1,190 @@
+# i18n-tasks finds and manages missing and unused translations: https://github.com/glebm/i18n-tasks
+
+# "メイン" ロケール
+base_locale: ja
+## 利用可能なすべてのロケールはデフォルトでデータから推測されます。または、明示的に指定します:
+# locales: [es, fr]
+## レポート用ロケール、デフォルト: en。利用可能: en, ru。
+# internal_locale: en
+
+# 翻訳の読み書き
+data:
+  ## 翻訳はファイルシステムから読み込まれます。サポートされている形式: YAML, JSON。
+  ## カスタムアダプターを指定:
+  # adapter: I18n::Tasks::Data::FileSystem
+
+  # 翻訳を読み込むロケールファイルまたは `Dir.glob` パターン:
+  read:
+    ## デフォルト:
+    # - config/locales/%{locale}.yml
+    ## 追加のファイル:
+    # - config/locales/**/*.%{locale}.yml
+
+  # 新しいキーを書き込むロケールファイル、キーパターン => ファイルルールのリストに基づきます。上から下にマッチします:
+  # `i18n-tasks normalize -p` はこれらのルールに従ってキーを強制的に移動します
+  write:
+    ## 例えば、devise と simple form のキーをそれぞれのファイルに書き込む:
+    # - ['{devise, simple_form}.*', 'config/locales/\1.%{locale}.yml']
+    ## すべてをキャッチするデフォルト:
+    # - config/locales/%{locale}.yml
+
+  # 外部ロケールデータ (例: gem)
+  # このデータは未使用とは見なされず、書き込まれることもありません
+  external:
+    ## 例 (%#= を %= に置き換えてください):
+    # - "<%#= %x[bundle info vagrant --path].chomp %>/templates/locales/%{locale}.yml"
+
+  ## ルーターを指定します (詳細は Readme を参照)。有効な値: conservative_router, pattern_router, isolating_router、またはカスタムクラス
+  # router: conservative_router
+
+  yaml:
+    write:
+      # 80文字で行を折り返さない
+      line_width: -1
+
+  ## JSON を整形して出力:
+  # json:
+  #   write:
+  #     indent: '  '
+  #     space: ' '
+  #     object_nl: "\n"
+  #     array_nl: "\n"
+
+# 翻訳呼び出しを検索
+search:
+  ## 検索するパスまたは `Find.find` パターン:
+  # paths:
+  #  - app/
+
+  ## 相対キー解決のルートディレクトリ
+  # relative_roots:
+  #   - app/controllers
+  #   - app/helpers
+  #   - app/mailers
+  #   - app/presenters
+  #   - app/views
+
+  ## 相対キー解決の一部として扱われないメソッド名があるディレクトリ
+  # デフォルトでは、メソッド内で相対翻訳が使用される場合、メソッド名は解決されるキーの一部と見なされます
+  # ここにリストされたディレクトリでは、メソッド名を解決されるキーの一部と見なしません
+  #
+  # relative_exclude_method_name_paths:
+  #  -
+
+  ## 検索から除外するファイルまたは `File.fnmatch` パターン。この設定に関係なく、常に除外されるファイルがあります:
+  ##   *.jpg *.jpeg *.png *.gif *.svg *.ico *.eot *.otf *.ttf *.woff *.woff2 *.pdf *.css *.sass *.scss *.less
+  ##   *.yml *.json *.zip *.tar.gz *.swf *.flv *.mp3 *.wav *.flac *.webm *.mp4 *.ogg *.opus *.webp *.map *.xlsx
+  exclude:
+    - app/assets/images
+    - app/assets/fonts
+    - app/assets/videos
+    - app/assets/builds
+
+  ## または、`paths` で検索する唯一のファイルまたは `File.fnmatch` パターン:
+  ## 指定された場合、この設定は `exclude` より優先されますが、`exclude` は依然として適用されます
+  # only: ["*.rb", "*.html.slim"]
+
+  ## `strict` が `false` の場合、t("categories.#{category}.title") のような使用法を推測します。デフォルトは `true` です
+  # strict: true
+
+  ## AST スキャナーを使用して翻訳を見つけるための ast_matchers を追加できます
+  ## 利用可能なマッチャー:
+  ## - RailsModelMatcher
+  ##     User.human_attribute_name(:email) や User.model_name.human のような
+  ##     ActiveRecord 翻訳にマッチします
+  ## - DefaultI18nSubjectMatcher
+  ##     ActionMailer の default_i18n_subject メソッドにマッチします
+  ##
+  ## 独自のマッチャーを実装するには、`I18n::Tasks::Scanners::AstMatchers::BaseMatcher` を参照してください
+  # ast_matchers:
+  #   - 'I18n::Tasks::Scanners::AstMatchers::RailsModelMatcher'
+  #   - 'I18n::Tasks::Scanners::AstMatchers::DefaultI18nSubjectMatcher'
+
+  ## 複数のスキャナーを使用できます。それらの結果はマージされます
+  ## 上記で指定されたオプションは各スキャナーに渡されます。スキャナーごとのオプションも指定できます
+  ## カスタムスキャナーの例については、こちらを参照してください: https://github.com/glebm/i18n-tasks/wiki/A-custom-scanner-example
+
+## 翻訳サービス
+# translation:
+#   # Google 翻訳
+#   # Google 翻訳を使用するには、https://code.google.com/apis/console で API キーを取得し、請求情報を設定してください
+#   google_translate_api_key: "AbC-dEf5"
+#   # DeepL Pro 翻訳
+#   # DeepL Pro を使用するには、https://www.deepl.com/pro で API キーとサブスクリプションを取得してください
+#   deepl_api_key: "48E92789-57A3-466A-9959-1A1A1A1A1A1A"
+#   # deepl_host: "https://api.deepl.com"
+#   # deepl_version: "v2"
+#   # deepl_glossary_ids:
+#   #   - f28106eb-0e06-489e-82c6-8215d6f95089
+#   #   - 2c6415be-1852-4f54-9e1b-d800463496b4
+#   # DeepL.translate 呼び出しに追加のオプションを追加: https://www.deepl.com/docs-api/translate-text/translate-text/
+#   deepl_options:
+#     formality: prefer_less
+#   # OpenAI
+#   openai_api_key: "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+#   # openai_model: "gpt-4o-mini" # https://platform.openai.com/docs/models を参照
+#   # openai_temperature: 0.0 # 応答のランダム性を制御 (0.0-2.0)、デフォルト: 0.0
+#   # `%{from}` と `%{to}` を含むことができ、それぞれソースとターゲットのロケールコードに置き換えられます (`Kernel.format` を使用)
+#   # openai_system_prompt: >-
+#   #   あなたは、i18n ロケール配列内のコンテンツを %{from} ロケールから
+#   #   %{to} ロケールに翻訳するプロフェッショナルな翻訳者です。
+#   #
+#   # ロケールごとのプロンプトは、特定のターゲットロケールのデフォルトプロンプトを上書きします
+#   # openai_locale_prompts:
+#   #   es: >-
+#   #     あなたはラテンアメリカのスペイン語を専門とするプロフェッショナルな翻訳者です。
+#   #     %{from} ロケールから %{to} ロケールへコンテンツを翻訳する際は、メキシコで一般的な
+#   #     くだけた言葉や地域的な表現を使用してください。
+#   #   ja: >-
+#   #     あなたはビジネス日本語を専門とするプロフェッショナルな翻訳者です。
+#   #     %{from} ロケールから %{to} ロケールへコンテンツを翻訳する際は、ビジネスコンテキストに
+#   #     適した正式で専門的な言葉を使用してください。
+#   #
+#   #   配列は構造化された形式を持ち、複数の文字列を含みます。あなたのタスクは、
+#   #   これらの文字列を翻訳し、翻訳された文字列で新しい配列を作成することです。
+#   #
+#   #   HTML マークアップ (< と > 文字で囲まれたもの) はいかなる状況でも変更してはいけません。
+#   #   変数 (%%{ で始まり } で終わるもの) はいかなる状況でも変更してはいけません。
+#   #
+#   #   より正確な翻訳のために、すべての文字列のコンテキストを考慮してください。
+
+## これらのキーは欠落していると見なしません:
+# ignore_missing:
+# - 'errors.messages.{accepted,blank,invalid,too_short,too_long}'
+# - '{devise,simple_form}.*'
+
+## これらのキーは使用されていると見なします:
+# ignore_unused:
+# - 'activerecord.attributes.*'
+# - '{devise,kaminari,will_paginate}.*'
+# - 'simple_form.{yes,no}'
+# - 'simple_form.{placeholders,hints,labels}.*'
+# - 'simple_form.{error_notification,required}.:'
+
+## `i18n-tasks eq-base` レポートからこれらのキーを除外します:
+# ignore_eq_base:
+#   all:
+#     - common.ok
+#   fr,es:
+#     - common.brand
+
+## `i18n-tasks check-consistent-interpolations` レポートからこれらのキーを除外します:
+# ignore_inconsistent_interpolations:
+# - 'activerecord.attributes.*'
+
+## これらのキーを完全に無視します:
+# ignore:
+#  - kaminari.*
+
+## 場合によっては、i18n-tasks がキーを正しく一致させることができないことがあります。
+## 例えば、ヘルパーメソッドで定義された相対キーの場合などです。
+## このような場合、組み込みの PatternMapper を使用してパターンをキーにマッピングできます。例:
+#
+# <%# I18n::Tasks.add_scanner 'I18n::Tasks::Scanners::PatternMapper',
+#       only: %w(*.html.haml *.html.slim),
+#       patterns: [['= title\b', '.page_title']] %>
+#
+# PatternMapper は特別な %{key} 補間を介してキーリテラルにもマッチできます。例:
+#
+# <%# I18n::Tasks.add_scanner 'I18n::Tasks::Scanners::PatternMapper',
+#       patterns: [['\bSpree\.t[( ]\s*%{key}', 'spree.%{key}']] %>

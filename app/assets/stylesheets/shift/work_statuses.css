@@ -1,0 +1,13 @@
+.no-wrap {
+  white-space: nowrap;
+}
+.flex-btn.work{
+  background-color: #69C5FF;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.flex-btn.not_work{
+  background-color: #F19494;
+  padding: 5px 10px;
+  border-radius: 5px;
+}

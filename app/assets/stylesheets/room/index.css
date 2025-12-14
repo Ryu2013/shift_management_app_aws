@@ -1,0 +1,86 @@
+
+
+.room-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+}
+
+.room-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+  position: relative; /* リンクを全体に広げるため */
+}
+
+.room-item:hover {
+  background-color: #f5f5f5;
+}
+
+.room-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #ddd;
+  border-radius: 50%; /* 丸アイコン */
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* デフォルトアイコンっぽいグラデーション */
+}
+
+.room-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.room-name {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.room-message {
+  font-size: 0.85rem;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room-meta {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+/* リンクを全体に広げるためのハック */
+.room-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.delete-btn {
+  background-color: var(--d-red);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-left: 10px;
+  z-index: 2; /* リンクより上に */
+}

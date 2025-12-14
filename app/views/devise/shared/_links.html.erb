@@ -1,0 +1,19 @@
+<%- if controller_name != 'sessions' %>
+  <div class="flexbox">
+    <%= link_to t(".sign_in"), new_session_path(resource_name), class: "flex-btn" %>
+  </div>
+<% end %>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <%= link_to t(".resend_confirmation"), new_confirmation_path(resource_name) %>
+<% end %>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to t(".resend_unlock"), new_unlock_path(resource_name) %>
+<% end %>
+
+<%- if devise_mapping.omniauthable? %>
+  <%- resource_class.omniauth_providers.each do |provider| %>
+    <%= button_to t(".omniauth", provider: OmniAuth::Utils.camelize(provider)), omniauth_authorize_path(resource_name, provider), data: { turbo: false } %>
+  <% end %>
+<% end %>

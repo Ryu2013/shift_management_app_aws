@@ -1,0 +1,10 @@
+    <div class="subscription-muted">
+      <p>現在は解約済みです。</p>
+    </div>
+
+    <%= button_to "プランを再契約する", 
+          subscriptions_subscribe_path, 
+          method: :post, 
+          data: { turbo: false }, 
+          class: "flex-btn subscription-restart-button"
+      %>

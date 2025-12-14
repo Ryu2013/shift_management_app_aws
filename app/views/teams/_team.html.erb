@@ -1,0 +1,16 @@
+<div id="<%=dom_id team %>">
+
+    <div class="flexbox card">
+
+        <strong><%= t(".name") %></strong>
+
+        <%= team.name %>
+
+        <%= link_to "編集", edit_team_path(team) ,data: { turbo_frame: "team_edit" },class: "flex-btn w-3rem" %>
+
+        <% if @teams.size > 1 && !team.clients.exists? && !team.users.exists? %>
+        <%= button_to "削除",team_path(team),method: :delete,data: { turbo: false },class: "flex-btn w-3rem" %>
+        <% end %>
+
+    </div>
+</div>

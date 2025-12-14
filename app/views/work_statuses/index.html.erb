@@ -1,0 +1,42 @@
+<% content_for :title, "出勤状況" %>
+<%= turbo_stream_from [@client, :shifts] %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "shift/work_statuses", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= link_to team_client_shifts_path(@team, @client) do %>
+  <%= image_tag "back-btn.png", alt: "シフト一覧", class: "back-image" %>  
+<% end %>
+
+<%= form_with url: team_work_statuses_path(@team), method: :get, local: true do |f| %>
+  <div class="flexbox m-20"> 
+
+    <%= f.date_field :date, value: @date, id: "real-date" , class: "hidden-field" %>
+
+    <%= f.collection_select :selected_team_id,
+                            @teams,
+                            :id,
+                            :name,
+                            { selected: @team.id  },
+                            { class: "flex-btn w-auto", onchange: "this.form.requestSubmit();" } %>
+     
+      <div id="fake-date" class="flex-btn">
+        <%= @date.strftime("%Y年%m月%d日") %>
+      </div>
+
+  </div>
+<% end %>
+
+<p class="text-center">出勤: <%= @work_count %> / 未出勤: <%= @not_work_count %></p>
+
+<% @clients.each do |client| %>
+  <div class="card">
+    <h2><%= client.name %></h2>
+    <%= render partial: 'work_statuses/shift', collection: (@shifts[client.id] || []) %>
+      <%= if @shifts[client.id].blank?
+            content_tag :p, "シフトが登録されていません。", class: "mb-1 text-center"
+          end %>
+    </div>
+<% end %>
+
+

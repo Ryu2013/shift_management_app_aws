@@ -1,0 +1,50 @@
+<div id="<%= dom_id(shift, :form) %>">
+<%= form_with(model: [@team, @client, shift], local: true) do |form| %>
+  <% if shift.errors.any? %>
+    <div class="error-text">
+      <ul>
+        <% shift.errors.full_messages.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.hidden_field :client_id %>
+  </div>
+
+    <% unless @shift.persisted? %>
+    <%= form.collection_select :user_id, @client.users, :id, :name, prompt: "担当従業員を選択" %>
+    <% end %>
+
+    <div>
+      <%= form.label :shift_type, class: "block-label" %>
+      <%= form.select :shift_type, [['日勤', 'day'], ['夜勤', 'night'],['同行','escort']] %>
+    </div>
+
+    <div>
+      <%= form.label :start_time, t(".start_time"), class: "block-label" %>
+      <%= form.time_field :start_time ,required: true %>
+    </div>
+
+    <div>
+      <%= form.label :end_time, t(".end_time"), class: "block-label" %>
+      <%= form.time_field :end_time ,required: true %>
+    </div>
+
+    <div>
+      <%= form.label :note, class: "block-label" %>
+      <%= form.text_field :note %>
+    </div>
+
+    <div>
+      <%= form.label :date, class: "block-label" %>
+      <%= form.date_field :date , required: true %>
+    </div>
+
+    <div class="flexbox">
+      <%= form.submit t(".submit") %>
+    </div>
+ <% end %>
+</div>

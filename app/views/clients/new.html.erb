@@ -1,0 +1,13 @@
+  <% if @team.clients.exists? %>
+      <%= link_to team_clients_path(@team) do %>
+        <%= image_tag "back-btn.png", alt: t(".clients"), class: "back-image" %>
+      <% end %>
+  <% end %>
+  
+<% content_for :title, t(".title") %>
+
+<h1><%= t(".heading") %></h1>
+
+<%= render "form", client: @client %>
+
+

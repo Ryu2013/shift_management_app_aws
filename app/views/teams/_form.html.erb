@@ -1,0 +1,21 @@
+<%= form_with(model: team, data: {turbo: false}) do |form| %>
+  <% if team.errors.any? %>
+    <div class="error-text">
+      <ul>
+        <% team.errors.each do |error| %>
+          <%= error.message %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, class: "block-label" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="flexbox">
+    <%= form.submit t(".submit") ,class: "flex-btn" %>
+  </div>
+
+<% end %>

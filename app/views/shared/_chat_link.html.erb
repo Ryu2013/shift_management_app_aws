@@ -1,0 +1,6 @@
+<%= link_to rooms_path, class: local_assigns[:css_class], id: "nav_chat_link" do %>
+  <% if user.has_unread_messages? %>
+    <span class="chat-dot">●</span>
+  <% end %>
+  チャット
+<% end %>

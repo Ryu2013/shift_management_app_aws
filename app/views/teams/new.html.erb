@@ -1,0 +1,15 @@
+<%= turbo_frame_tag "new_team" do %>
+  <div class="modal open">
+    <% content_for :title, t(".title") %>
+    
+    <%= link_to "✕", teams_path ,class:"float-right text-red font-bold" %>
+
+    <h1><%= t(".heading") %></h1>
+
+    <% unless @office.teams.exists? %>
+      <p><%= t(".no_offices") %></p>
+    <% end %>
+
+    <%= render "form", team: @team %>
+  </div>
+<% end %>

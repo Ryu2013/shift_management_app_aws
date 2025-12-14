@@ -1,0 +1,102 @@
+<% content_for :title, t(".title") %>
+<%= turbo_stream_from [@client, :shifts] %>
+<%= turbo_stream_from current_user %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "shift/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= turbo_frame_tag "shift_new" do %>
+<% end %>
+
+<%= turbo_frame_tag "shift_edit" do %>
+<% end %>
+
+<div class="flexbox">
+  <%= image_tag "logo.png", alt: "ロゴ画像", class: "pc-logo" %>
+  <%= image_tag "hamburger.png", alt: "ハンバーガーメニュー", class: "hamburger" ,id: "hamburger" %>
+</div>
+
+  <div class="flexbox">
+    <%= @office.name %>
+  </div>
+
+  <%# --- メッセージ表示エリア（通常時は何も表示しない） --- %>
+  <% if @office.subscription_status == 'active' && @office.cancel_at_period_end? %>
+    <%= render partial: "shifts/subscription_canceling", locals: { office: @office } %>
+  <% elsif @office.subscription_status == 'canceled' %>
+    <%= render partial: "shifts/subscription_canceled_status", locals: { office: @office } %>
+  <% end %>
+
+<div class="menus">
+  <%= render "shared/chat_link", user: current_user, css_class: "menu" %>
+  <%= link_to "部署/会社", teams_path, class: "menu" %>
+  <%= link_to t(".nav.clients_and_staff"), team_clients_path(@team),class: "menu" %>
+  <%= link_to t(".nav.attendance_status"), team_work_statuses_path(@team),class: "menu" %>
+  <%= link_to "二段階認証", users_two_factor_setup_path, class: "menu" %>
+  <%= link_to "ログアウト",
+            destroy_user_session_path,
+            data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" }, class: "menu" %>
+</div>
+
+
+<hr >
+
+  <%= form_with url: team_client_shifts_path(@team, @client), method: :get, local: true,  html: { id: "filters-form" } do |f| %>
+
+    <%= f.month_field :date, id: "real-month", class: "hidden-month-field",
+                        onchange: "this.form.requestSubmit();" %>
+    
+    <div class="flexbox">
+      <div id= "fake-month" class="flex-btn month-display">
+        <%= @date_view %>
+      </div>
+
+      <%= f.collection_select :selected_team_id,
+                  @teams,
+                  :id,
+                  :name,
+                  { selected: @team.id  },
+                  { class: "flex-btn auto-width-select", onchange: "this.form.requestSubmit();" } %>
+
+      <%= f.collection_select  :selected_client_id,
+                  @clients,
+                  :id,
+                  :name,
+                  { selected: @client.id  },
+                  { class: "flex-btn auto-width-select", onchange: "this.form.requestSubmit();" } %>
+      
+      <%= link_to t(".new_shift"), new_team_client_shift_path(@team, @client, date: @date), data: { turbo_frame: "shift_new" }, class: "flex-btn" %>
+    </div>
+  <% end %>
+
+  <div class="flexbox">
+    <p class="shift ex">日勤</p>
+    <p class="shift ex-night">夜勤</p>
+    <p class="shift ex-escort">同行</p>
+    <p class="shift ex-nil">未配置</p>
+  </div>
+
+<div class="calendar">
+
+    <% I18n.t("date.abbr_day_names").each do |wday| %>
+      <div class="week"><%= wday %></div>
+    <% end %>
+
+    <% @first_day.wday.times do %>
+      <div class="day"></div>
+    <% end %>
+
+    <% (@first_day..@last_day).each do |date| %>
+      <div class="day <%= 'today' if date == @today %>">
+          <%= date.day %>
+
+        <div id="shifts_<%= date %>">
+          <%= render (@shifts[date] || []) %>
+        </div>
+      </div>
+    <% end %>
+
+    <% (6 - @last_day.wday).times do %>
+      <div class="day"></div>
+    <% end %>
+</div>

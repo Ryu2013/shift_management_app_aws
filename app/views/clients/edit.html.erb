@@ -1,0 +1,27 @@
+<% content_for :title, t(".title") %>
+<%= turbo_stream_from [@client, :client_needs] %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "client/edit", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= link_to team_clients_path(@team) do %>
+  <%= image_tag "back-btn.png", alt: t(".clients"), class: "back-image" %>
+<% end %>
+
+<h1><%= @client.name %></h1>
+
+<%= render "form", client: @client %>
+
+<div class="flexbox">
+  <% if @team.clients.count > 1 %>
+    <%= button_to "顧客を消去", [@team, @client], method: :delete, data: { turbo_confirm: t(".confirm_destroy") }, class: "flex-btn" %>
+  <% end %>
+
+  <%= turbo_frame_tag "user_client" do %>
+    <%= link_to "担当可能従業員の追加", new_team_client_user_client_path(@team, @client),class: "flex-btn" %>
+  <% end %>
+
+  <%= turbo_frame_tag "client_need" do %>
+    <%= link_to "シフト登録", team_client_client_needs_path(@team, @client), id: "open-modal", class: "flex-btn" %>
+  <% end %>
+</div>

@@ -1,0 +1,24 @@
+<nav class="how-to-use-nav">
+  <div class="hamburger-menu">
+    <%= image_tag "hamburger.png", class: "hamburger-icon", onclick: "toggleMenu()" %>
+  </div>
+  <ul id="how-to-use-menu">
+    <li><%= link_to "使い方トップ", how_to_use_path, class: current_page?(how_to_use_path) ? "active" : "" %></li>
+    <li><%= link_to "登録方法", how_to_use_registration_path, class: current_page?(how_to_use_registration_path) ? "active" : "" %></li>
+    <li><%= link_to "ログイン方法", how_to_use_login_path, class: current_page?(how_to_use_login_path) ? "active" : "" %></li>
+    <li><%= link_to "シフト作成", how_to_use_shift_creation_path, class: current_page?(how_to_use_shift_creation_path) ? "active" : "" %></li>
+    <li><%= link_to "勤怠管理", how_to_use_attendance_path, class: current_page?(how_to_use_attendance_path) ? "active" : "" %></li>
+    <li><%= link_to "チャット機能", how_to_use_chat_path, class: current_page?(how_to_use_chat_path) ? "active" : "" %></li>
+  </ul>
+</nav>
+
+<script nonce="<%= content_security_policy_nonce %>">
+  function toggleMenu() {
+    var menu = document.getElementById("how-to-use-menu");
+    if (menu.style.display === "flex") {
+      menu.style.display = "";
+    } else {
+      menu.style.display = "flex";
+    }
+  }
+</script>

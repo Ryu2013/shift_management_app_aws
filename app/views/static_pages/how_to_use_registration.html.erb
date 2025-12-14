@@ -1,0 +1,46 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "static/how_to_use", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= render "how_to_use_header" %>
+
+<div class="how-to-use-container">
+  <h1>登録方法</h1>
+
+  <p>このアプリケーションの登録方法を説明します。</p>
+  <p>登録方法は以下の2通りがあります。</p>
+
+  <h2>Googleアカウントでの登録</h2>
+  <%= image_tag "registration1.png", class: "how-to-use-image" %>
+  <p>Googleアカウントで登録ボタンを押します。</p>
+
+  <h2>Googleアカウントの選択</h2>
+  <%= image_tag "registration2.png", class: "how-to-use-image" %>  
+  <p>使用するGoogleアカウントを選択します。</p>
+
+  <h2>お客様を一人登録します</h2>
+  <%= image_tag "registration3.png", class: "how-to-use-image" %>
+  
+  <h2>戻るボタンを押します</h2>
+  <%= image_tag "registration4.png", class: "how-to-use-image" %>
+  <p>登録が完了です。</p>
+
+
+  <h2>メールアドレスでのアカウント登録</h2>
+  <p>新規登録ボタンを押してください。</p>
+  <%= image_tag "registration5.png", class: "how-to-use-image" %>
+  <p>登録ページで必要な情報を入力し登録するボタンを押してください</p>
+
+  <h2>メールアドレス確認</h2>
+  <%= image_tag "registration6.png", class: "how-to-use-image" %>
+  <p>届いたメールアドレスからURLを踏んでください。</p>
+
+  <h2>ログイン画面よりご登録頂いたメールアドレスとパスワードでログインします</h2>
+  <%= image_tag "registration7.png", class: "how-to-use-image" %>
+  <h2>顧客を一人登録します</h2>
+  <%= image_tag "registration3.png", class: "how-to-use-image" %>
+  
+  <h2>戻るボタンを押します</h2>
+  <%= image_tag "registration4.png", class: "how-to-use-image" %>
+  <p>登録が完了です。</p>
+</div>

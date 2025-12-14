@@ -1,0 +1,107 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "149dd7eedf3d33a66d5d20ff75fd434e82036d17776e3acfbdb696d3688d3991",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/client_needs/index.html.erb",
+      "line": 20,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => ((((@office.teams.find_by(:id => ((params[:team_id] or params[:id]))) or @office.teams.order(:id).first).clients.find_by(:id => ((params[:client_id] or params[:id]))) or (@office.teams.find_by(:id => ((params[:team_id] or params[:id]))) or @office.teams.order(:id).first).clients.order(:id).first) or (@office.teams.joins(:clients).distinct.order(:id).first.clients.find_by(:id => ((params[:client_id] or params[:id]))) or @office.teams.joins(:clients).distinct.order(:id).first.clients.order(:id).first)).client_needs.order(:week, :shift_type, :start_time).includes(:client).group_by(&:week)[week] or []), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ClientNeedsController",
+          "method": "index",
+          "line": 8,
+          "file": "app/controllers/client_needs_controller.rb",
+          "rendered": {
+            "name": "client_needs/index",
+            "file": "app/views/client_needs/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "client_needs/index"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "1a632b7244b232533de3e33367c31dba521302a6064f7dcd43eaf179475f9833",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/shifts/index.html.erb",
+      "line": 94,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => ((((@office.teams.find_by(:id => ((params[:team_id] or params[:id]))) or @office.teams.order(:id).first).clients.find_by(:id => ((params[:client_id] or params[:id]))) or (@office.teams.find_by(:id => ((params[:team_id] or params[:id]))) or @office.teams.order(:id).first).clients.order(:id).first) or (@office.teams.joins(:clients).distinct.order(:id).first.clients.find_by(:id => ((params[:client_id] or params[:id]))) or @office.teams.joins(:clients).distinct.order(:id).first.clients.order(:id).first)).shifts.scope_month((Date.strptime(params[:date], \"%Y-%m\") or Date.current)).includes(:user, :client => :team).group_by do\n shift.date\n end[date] or []), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ShiftsController",
+          "method": "index",
+          "line": 17,
+          "file": "app/controllers/shifts_controller.rb",
+          "rendered": {
+            "name": "shifts/index",
+            "file": "app/views/shifts/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "shifts/index"
+      },
+      "user_input": "params[:date]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "34057a512fe9607414b9bf05f852a856a598f142669e1b6ce873de5eab38819e",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/employee/shifts/index.html.erb",
+      "line": 71,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => ((@office.users.find(params[:user_id]) or current_user).shifts.scope_month((Date.strptime(params[:date], \"%Y-%m\") or Date.current)).includes(:client).group_by do\n shift.date\n end[date] or []), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Employee::ShiftsController",
+          "method": "index",
+          "line": 18,
+          "file": "app/controllers/employee/shifts_controller.rb",
+          "rendered": {
+            "name": "employee/shifts/index",
+            "file": "app/views/employee/shifts/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "employee/shifts/index"
+      },
+      "user_input": "params[:date]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    }
+  ],
+  "brakeman_version": "7.1.1"
+}

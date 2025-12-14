@@ -1,0 +1,8 @@
+<p><%= t(".welcome") %></p>
+
+<p><%= t(".greeting", email: @email) %></p>
+
+<p><%= t(".instruction") %></p>
+
+<p><%= link_to t(".action"), confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= t(".ignore_text") %></p>

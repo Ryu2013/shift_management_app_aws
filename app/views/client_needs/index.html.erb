@@ -1,0 +1,27 @@
+<%= turbo_frame_tag "client_need" do %>
+
+  <div class="modal open">
+    
+    <%= link_to edit_team_client_path(@team, @client) do %>
+        <div class="back-btn">✕</div>
+    <% end %>
+
+    <%= turbo_frame_tag "new_client_need" do %>
+    <h3>シフト作成</h3>
+      <div class="flexbox">
+        <%= link_to "新規追加", new_team_client_client_need_path(@team, @client) , class: "flex-btn" %>
+      </div>
+    <% end %>
+
+    <% ClientNeed.weeks.keys.each do |week| %>
+      <div class="card">
+          <h4><%= t("activerecord.attributes.client_need.weeks.#{week}") %></h4>
+          <div id="client_needs_<%= week %>">
+            <%= render (@needs_by_week[week] || []) %>
+          </div>
+      </div>
+    <% end %>
+    
+  </div>
+
+<% end %>

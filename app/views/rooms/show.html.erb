@@ -1,0 +1,62 @@
+<%= turbo_stream_from @room %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "room/show", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<style nonce="<%= content_security_policy_nonce %>">
+    .message-user-<%= current_user.id %> {
+      justify-content: flex-end;
+      align-items: flex-end;
+      margin-left: auto;
+
+    }
+    .message-user-<%= current_user.id %> .message-bubble {
+      background-color: #8de055;
+      border-top-right-radius: 0;
+      border-top-left-radius: 15px;
+    }
+    .message-user-<%= current_user.id %> .icon {
+      display: none;
+    }
+</style>
+
+<div class="room-wrapper">
+
+<div class="room-header">
+<%= link_to rooms_path do %>
+ <%= image_tag "back-btn.png", class: "back-image" %>
+<% end %>
+<h3 class="room-title">
+  <div class="room-members">
+  <%= @room.users
+          .where.not(id: current_user.id)
+          .pluck(:name)
+          .join("、") %>
+</div>
+</h3>
+ <%= link_to edit_room_path do %>
+  <%= image_tag "hamburger.png", class: "back-image" %>
+<% end %>
+</div>
+
+<div id="messages" class="messages-container">
+  <% if @last_read_at.nil? && @messages.any?(&:persisted?) %>
+      <div class="message-separator">
+        <span class="message-separator-text">ここから未確認</span>
+      </div>
+  <% end %>
+
+  <% shown_unread_separator = false %>
+  <% @messages.select(&:persisted?).each do |message| %>
+    <% if @last_read_at && message.created_at > @last_read_at && !shown_unread_separator %>
+       <div class="message-separator">
+        <span class="message-separator-text">ここから未確認</span>
+      </div>
+      <% shown_unread_separator = true %>
+    <% end %>
+    <%= render message %>
+  <% end %>
+</div>
+
+<%= render "form", room: @room, message: @message %>
+</div>

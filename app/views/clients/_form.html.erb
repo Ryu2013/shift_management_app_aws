@@ -1,0 +1,37 @@
+<%= form_with(model: [@team, client]) do |form| %>
+<% if client.errors.any? %>
+    <div class="error-text">
+      
+
+      <ul>
+        <% client.errors.each do |error| %>
+          <%= error.message %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= form.label :team_id, t(".team"), class: "block-label" %>
+  <%= form.collection_select :team_id, @teams, :id, :name,selected: params[:team_id] %>
+
+
+  <div>
+    <%= form.label :name, class: "block-label" %>
+    <%= form.text_field :name ,required: true%>
+  </div>
+
+  <% if @client.persisted? %>
+
+  <div>
+    <%= form.label :address, class: "block-label" %><span class="helper-text">GoogleMapが開けるようになります</span>
+    <%= form.text_field :address %>
+  </div>
+
+  <% end %>
+
+  
+  <div class="flexbox">
+      <%= form.submit t(".submit"), class: "flex-btn" %>
+  </div>
+
+  <% end %>

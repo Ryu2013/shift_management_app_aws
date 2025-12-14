@@ -1,0 +1,13 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "stripe/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<div class="checkout-success-container">
+  <div class="success-icon">✔</div>
+  <h1 class="success-title">サブスクリプションありがとうございます！</h1>
+  <p class="success-message">
+    毎月更新日(契約日)に従業員×300円のご請求がございます。<br>
+    引き続きよろしくお願いします。
+  </p>
+  <%= link_to "ホームに戻る", team_client_shifts_path(@team, @client), class: "home-button" %>
+</div>

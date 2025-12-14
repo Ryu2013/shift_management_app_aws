@@ -1,0 +1,7 @@
+<div id="<%= dom_id shift %>">
+    <div class="shift <%= "night" if shift.shift_type == "night" %> <%= "escort" if shift.shift_type == "escort" %> <%= "nil" if shift.user_id.nil? %>">
+        <%= shift.client&.name%> <br>
+        <%= shift.start_time.strftime("%H:%M") %> - <%= shift.end_time.strftime("%H:%M") %><br>
+        <%= shift.work_status == "work" ? "出勤済" : "" %>
+    </div>
+</div>

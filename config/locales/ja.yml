@@ -1,0 +1,667 @@
+ja:
+  time:
+    formats:
+      time: "%H:%M"
+      default: "%H:%M"
+      devise:
+        mailer:
+          invitation_instructions:
+            accept_until_format: "%Y年%m月%d日 %H:%M"
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%m/%d"
+      long: "%Y年%m月%d日"
+    abbr_day_names:
+      - 日
+      - 月
+      - 火
+      - 水
+      - 木
+      - 金
+      - 土
+  layouts:
+    application:
+      default_title: "シフト管理システム"
+  errors:
+    attributes:
+      team:
+        required: "チームは必須です"
+      office:
+        required: "必須です"
+    messages:
+      time_slot_conflict: "%{user_name}は、%{date} %{start_time} から %{end_time} の時間帯で、既に %{conflict_client} 様のシフト（%{conflict_start}〜%{conflict_end}）に割り当てられています。時間帯が重複しています。"
+      required: "必須です"
+      not_locked: "はロックされていません。"
+      pwned_password: "ご登録のパスワードはPwnedPasswordに登録されています。パスワードを変更してください。どこかで同じパスワードを使用したことがある場合は、変更を強くお勧めいたします。"
+      record_invalid: "%{errors}"
+      blank: "を入力してください。"
+      taken: "はすでに存在します。"
+      confirmation: "と一致しません。"
+      invalid: "は無効です。"
+      already_confirmed: "このメールアドレスは既に確認済みです。"
+      too_short: "は%{count}文字以上で入力してください。"
+      not_saved:
+        one: "%{resource}は保存できませんでした（1件のエラーがあります）。"
+        other: "%{resource}は保存できませんでした（%{count}件のエラーがあります）。"
+  activerecord:
+    errors:
+      messages:
+        required: "必須です"
+        confirmation: "と一致しません。"
+        not_locked: "はロックされていません。"
+      models:
+        user_client:
+          attributes:
+            office:
+              required: "必須です"
+            user:
+              required: "必須です"
+        shift:
+          attributes:
+            user_id:
+              already_assigned: "%{date}の%{user_name}さんは%{client_name}さんに配属されてます。"
+        user:
+          attributes:
+            unlock_token:
+              invalid: "ロック解除トークンが無効です。ロック解除メールのリンクをご確認ください。"
+            client:
+              required: "必須です"
+            email:
+              not_found: "メールアドレスが見つかりません。"
+              already_confirmed: "このメールアドレスは既に確認済みです。"
+            confirmation_token:
+              invalid: "確認トークンが無効です。再送したメールをご確認ください。"
+            office:
+              required: "必須項目です"
+            team:
+              required: "チームは必須です"
+        user_need:
+          attributes:
+            office:
+              required: "必須です"
+            user:
+              required: "必須です"
+    models:
+      office: 会社名
+      team: 部署
+      client: 顧客
+      shift: シフト
+      client_need: 顧客ニーズ
+      user_need: 従業員希望
+      user_client: 担当顧客
+      user_team: 部署所属
+      user: 従業員
+    attributes:
+      office:
+        name: 会社名
+      team:
+        office_id: 会社名
+        name: 部署名
+      client:
+        office_id: 会社名
+        team_id: 部署
+        name: 氏名
+        email: メールアドレス
+        address: 住所
+        disease: 疾患
+        note: 備考
+      shift:
+        office_id: 会社名
+        client_id: 顧客
+        user: 従業員
+        user_id: 従業員
+        shift_type: シフト種別
+        slots: 必要人数
+        note: 備考
+        date: 日付
+        start_time: 開始時刻
+        end_time: 終了時刻
+        shift_types:
+          day: 日勤
+          night: 夜勤
+          escort: 同行
+      client_need:
+        office_id: 会社名
+        client_id: 顧客
+        week: 曜日
+        shift_type: 種別
+        start_time: 開始時刻
+        end_time: 終了時刻
+        slots: 必要人数
+        weeks:
+          sunday: 日曜日
+          monday: 月曜日
+          tuesday: 火曜日
+          wednesday: 水曜日
+          thursday: 木曜日
+          friday: 金曜日
+          saturday: 土曜日
+        shift_types:
+          day: 日勤
+          night: 夜勤
+      user_need:
+        office_id: 会社名
+        user_id: 従業員
+        week: 曜日
+        start_time: 開始時刻
+        end_time: 終了時刻
+        weeks:
+          sunday: 日曜日
+          monday: 月曜日
+          tuesday: 火曜日
+          wednesday: 水曜日
+          thursday: 木曜日
+          friday: 金曜日
+          saturday: 土曜日
+      user_client:
+        office_id: 会社名
+        user_id: 従業員
+        client_id: 顧客
+        note: 備考
+      user_team:
+        team_id: 部署
+        user_id: 従業員
+      user:
+        name: 氏名
+        address: 住所
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認用）
+        current_password: 現在のパスワード
+    
+  devise:
+    omniauth_callbacks:
+      success: "%{kind}アカウントでログインしました。"
+      failure: "%{kind}でのログインに失敗しました。理由: %{reason}"
+      user:
+        success: "%{kind}アカウントでログインしました。"
+        failure: "%{kind}でのログインに失敗しました。理由: %{reason}"
+    failure:
+      invited: "招待が保留中です。招待を承認して登録を完了してください。"
+    confirmations:
+      confirmed: "メールアドレスの確認が完了しました。"
+      user:
+        confirmed: "メールアドレスの確認が完了しました。"
+        send_instructions: "確認メールを送信しました。メールをご確認ください。"
+      new:
+        heading: "確認メールを再送"
+        email: "メールアドレス"
+        submit: "送信する"
+      send_instructions: "確認メールを送信しました。メールをご確認ください。"
+    registrations:
+      destroyed: "アカウントを削除しました。"
+      signed_up_but_unconfirmed: "ご登録のメールアドレス宛に確認メールを送信しました。メールをご確認ください。"
+      updated: "アカウント情報を更新しました。"
+      user:
+        destroyed: "アカウントを削除しました。"
+        signed_up_but_unconfirmed: "ご登録のメールアドレス宛に確認メールを送信しました。メールをご確認ください。"
+        updated: "アカウント情報を更新しました。"
+      new:
+        heading: "従業員を登録"
+        name: "氏名"
+        address: "住所"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_hint: "%{count}文字以上で入力してください。"
+        password_confirmation: "パスワード（確認用）"
+        submit: "登録する"
+      edit:
+        heading: "従業員の情報を編集"
+        users: "従業員シフト"
+        name: "氏名"
+        address: "住所"
+        email: "メールアドレス"
+        pending_confirmation: "現在%{email}で確認中です。"
+        password: "新しいパスワード"
+        password_hint: "変更しない場合は空欄のままにしてください。"
+        password_length: "%{count}文字以上で入力してください。"
+        password_confirmation: "新しいパスワード（確認用）"
+        current_password: "現在のパスワード"
+        current_password_hint: "変更を保存するには現在のパスワードが必要です。"
+        current_password_note: "（変更を確定するため現在のパスワードが必要です）"
+        submit: "更新する"
+        cancel_heading: "アカウントを削除"
+        requires_employee: "従業員を削除するには最低1名必要です。"
+        cancel_prompt: "アカウントを削除する場合はこちらをクリックしてください。"
+        cancel_button: "アカウントを削除"
+        cancel_confirm: "本当にアカウントを削除しますか？"
+        back: "戻る"
+    sessions:
+      new:
+        heading: "ログイン"
+        email: "メールアドレス"
+        password: "パスワード"
+        submit: "ログイン"
+        otp_attempt_label: "二段階認証コード(有効にしている場合)"
+      already_signed_out: "ログアウトしました。"
+      user:
+        signed_out: "ログアウトしました。"
+        signed_in: "ログインしました。"
+        already_signed_out: "ログアウトしました。"
+        invalid: "メールアドレスまたはパスワードが正しくありません。"
+      invalid: "メールアドレスまたはパスワードが正しくありません。"
+      warn_pwned: "ご登録のパスワードはPwnedPasswordに登録されています。パスワードを変更してください。どこかで同じパスワードを使用したことがある場合は、変更を強くお勧めいたします。"
+    passwords:
+      new:
+        heading: "パスワード再設定"
+        email: "メールアドレス"
+        submit: "再設定メールを送信する"
+      edit:
+        heading: "パスワードを変更"
+        password: "新しいパスワード"
+        password_confirmation: "新しいパスワード（確認用）"
+        password_length: "%{count}文字以上で入力してください。"
+        submit: "パスワードを更新する"
+    failure:
+      unauthenticated: "ログインが必要です。"
+      unconfirmed: "メールアドレスの確認が完了していません。メールをご確認ください。"
+      user:
+        unauthenticated: "ログインが必要です。"
+        unconfirmed: "メールアドレスの確認が完了していません。メールをご確認ください。"
+        not_found_in_database: "メールアドレスまたはパスワードが正しくありません。"
+        last_attempt: "ログイン試行回数の上限が近づいています。次に失敗するとアカウントがロックされます。"
+        locked: "複数回のログイン失敗によりアカウントがロックされています。ロック解除メールをご確認ください。"
+      invalid: "メールアドレスまたはパスワードが正しくありません。"
+      user:
+        invalid: "メールアドレスまたはパスワードが正しくありません。"
+        last_attempt: "ログイン試行回数の上限が近づいています。次に失敗するとアカウントがロックされます。"
+        locked: "複数回のログイン失敗によりアカウントがロックされています。ロック解除メールをご確認ください。"
+      not_found_in_database: "メールアドレスまたはパスワードが正しくありません。"
+      last_attempt: "ログイン試行回数の上限が近づいています。次に失敗するとアカウントがロックされます。"
+      locked: "複数回のログイン失敗によりアカウントがロックされています。ロック解除メールをご確認ください。"
+      already_authenticated: "すでにログインしています。"
+      user:
+        already_authenticated: "すでにログインしています。"
+    unlocks:
+      new:
+        heading: "ロック解除メールを再送"
+        email: "メールアドレス"
+        submit: "送信する"
+      send_instructions: "ロック解除方法を記載したメールを送信しました。数分後に届かない場合は迷惑メールをご確認ください。"
+      send_paranoid_instructions: "アカウントが存在する場合、ロック解除方法を記載したメールを送信します。"
+      unlocked: "アカウントのロックを解除しました。ログインしてください。"
+    shared:
+      minimum_password_length: "最低%{count}文字必要です。"
+      links:
+        sign_in: "ログイン"
+        sign_up: "新規登録"
+        forgot_password: "パスワードをお忘れですか？"
+        resend_confirmation: "確認メールを再送する"
+        resend_unlock: "ロック解除メールを再送する"
+        omniauth: "%{provider}でログイン"
+    invitations:
+      send_instructions: "招待メールを%{email}宛に送信しました。"
+      invitation_token_invalid: "招待トークンが無効です。"
+      updated: "パスワードを設定しました。ログインしました。"
+      updated_not_active: "パスワードを設定しました。"
+      no_invitations_remaining: "招待の残数がありません。"
+      invitation_removed: "招待を取り消しました。"
+      new:
+        header: "招待を送信"
+        name: "氏名"
+        team: "部署"
+        team_prompt: "部署を選択"
+        address: "住所"
+        submit_button: "招待を送信する"
+        back: "従業員一覧へ戻る"
+      edit:
+        header: "パスワードを設定"
+        submit_button: "パスワードを設定する"
+    mailer:
+      confirmation_instructions:
+        welcome: "ケアシフトへようこそ！"
+        greeting: "%{email} 様"
+        instruction: "以下のリンクからメールアドレスの確認を行ってください。"
+        action: "メールアドレスを確認する"
+        subject: "アカウント確認の案内"
+        ignore_text: "このメールに心当たりがない場合は破棄してください。"
+      email_changed:
+        greeting: "%{email} 様"
+        changing: "メールアドレスを%{email}に変更しようとしています。"
+        changed: "メールアドレスが%{email}に変更されました。"
+      password_change:
+        greeting: "%{email} 様"
+        message: "パスワードが更新されました。"
+      reset_password_instructions:
+        greeting: "%{email} 様"
+        instruction: "以下のリンクからパスワードを再設定してください。"
+        action: "パスワードを再設定する"
+        ignore: "このメールに心当たりがない場合は破棄してください。"
+        note: "リンクにアクセスするまでパスワードは変更されません。"
+      unlock_instructions:
+        greeting: "%{email} 様"
+        message: "複数回のログイン失敗によりアカウントがロックされています。"
+        instruction: "以下のリンクからアカウントのロックを解除できます。"
+        action: "アカウントのロックを解除する"
+      invitation_instructions:
+        subject: "招待のお知らせ"
+        hello: "%{email} 様"
+        intro_html: "%{office_name} のシフト管理システムへの招待が届いています。以下のリンクからパスワードを設定してご利用を開始してください。"
+        someone_invited_you: "%{url} への招待が届いています。以下のリンクから承認してください。"
+        accept: "招待を承認する"
+        accept_until: "この招待の有効期限は %{due_date} です。"
+        ignore: "招待を利用しない場合はこのメールを破棄してください。上記リンクからパスワードを設定するまではアカウントは作成されません。"
+    enums:
+      shift:
+        shift_type:
+          day: 日勤
+          night: 夜勤
+    errors:
+      messages:
+        blank: "を入力してください。"
+        taken: "はすでに存在します。"
+        too_short: "は%{count}文字以上で入力してください。"
+        record_invalid: "%{errors}"
+      models:
+        office:
+          attributes:
+            name:
+              blank: "を入力してください。"
+              taken: "はすでに存在します。"
+        team:
+          attributes:
+            name:
+              blank: "を入力してください。"
+        client:
+          attributes:
+            name:
+              blank: "を入力してください。"
+            email:
+              blank: "を入力してください。"
+              invalid: "メールアドレスの形式が正しくありません。"
+        shift:
+          attributes:
+            start_time:
+              blank: "を入力してください。"
+            end_time:
+              blank: "を入力してください。"
+            user_id:
+              already_assigned: "%{date}の%{user_name}さんは%{client_name}さんに配属されてます。"
+  home:
+    index:
+      heading: "ホーム"
+      new_office: "会社名を登録"
+      login: "ログイン"
+  shifts:
+    index:
+      title: "シフト一覧"
+      nav:
+        change_requests: "変更連絡状況"
+        clients_and_staff: "顧客/従業員"
+        attendance_status: "出勤状況"
+        logout: "ログアウト"
+      form:
+        team: "部署"
+        client: "顧客"
+        submit: "絞り込み"
+      new_shift: "新規シフト"
+    new:
+      title: "シフトを登録"
+      heading: "シフトを登録"
+      back: "シフト一覧に戻る"
+    edit:
+      title: "シフトを編集"
+      heading: "シフトを編集"
+      show: "このシフトを表示"
+      back: "シフト一覧に戻る"
+      destroy: "このシフトを削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      start_time: "開始"
+      end_time: "終了"
+      submit: "保存する"
+    shift:
+      office: "会社名"
+      client: "顧客"
+      shift_type: "シフト種別"
+      slots: "必要人数"
+      note: "備考"
+      date: "日付"
+  clients:
+    index:
+      title: "顧客一覧"
+      heading: "顧客一覧"
+      show: "この顧客を表示"
+      new: "顧客を追加"
+      users: "従業員一覧"
+      shifts: "シフト一覧"
+    new:
+      title: "顧客を追加"
+      heading: "顧客を追加"
+      clients: "顧客一覧"
+      back: "顧客一覧に戻る"
+      destroy: "この顧客を削除"
+      confirm_destroy: "本当に削除しますか？"
+    edit:
+      title: "顧客を編集"
+      heading: "顧客を編集"
+      clients: "顧客一覧"
+      show: "この顧客を表示"
+      back: "顧客一覧に戻る"
+      destroy: "この顧客を削除"
+      confirm_destroy: "本当に削除しますか？"
+    show:
+      edit: "この顧客を編集"
+      back: "顧客一覧に戻る"
+      back_to_shifts: "シフトページに戻る"
+      destroy: "この顧客を削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      team: "部署"
+      submit: "保存する"
+      destroy: "消去"
+      confirm_destroy: "本当に削除しますか？"
+    client:
+      office: "会社名"
+      team: "部署"
+      name: "氏名"
+      email: "メールアドレス"
+      address: "住所"
+  teams:
+    index:
+      title: "部署一覧"
+      heading: "部署一覧"
+      show: "この部署を表示"
+      new: "部署を追加"
+      shifts: "シフト一覧"
+    new:
+      title: "部署を追加"
+      heading: "部署を追加"
+      no_offices: "まずは会社名を登録しましょう。"
+      back: "部署一覧に戻る"
+    edit:
+      title: "部署を編集"
+      heading: "部署を編集"
+      show: "この部署を表示"
+      back: "部署一覧に戻る"
+    show:
+      edit: "この部署を編集"
+      back: "部署一覧に戻る"
+      destroy: "この部署を削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      team_name: "部署名"
+      submit: "保存する"
+    team:
+      office: "会社名"
+      name: "部署名"
+  offices:
+    edit:
+      title: "会社名の編集"
+      heading: "会社名の編集"
+      show: "この会社名を表示"
+    new:
+      title: "会社名の登録"
+      heading: "会社名の登録"
+      back_to_home: "ホームに戻る"
+    show:
+      edit: "この会社名を編集"
+      destroy: "この会社名を削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      submit: "保存する"
+      team_name: "部署名"
+    office:
+      name: "名称"
+  user_needs:
+    index:
+      title: "従業員希望一覧"
+      heading: "従業員希望一覧"
+      show: "この従業員希望を表示"
+      new: "従業員希望を追加"
+    new:
+      title: "従業員希望を追加"
+      heading: "従業員希望を追加"
+      back: "一覧に戻る"
+    edit:
+      title: "従業員希望を編集"
+      heading: "従業員希望を編集"
+      show: "この従業員希望を表示"
+      back: "一覧に戻る"
+    show:
+      edit: "この従業員希望を編集"
+      back: "一覧に戻る"
+      destroy: "この従業員希望を削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      submit: "保存する"
+    user_need:
+      office: "会社名"
+      user: "従業員"
+      week: "曜日"
+      start_time: "開始時刻"
+      end_time: "終了時刻"
+  user_clients:
+    index:
+      title: "担当顧客一覧"
+      heading: "担当顧客一覧"
+      show: "この担当顧客を表示"
+      new: "担当顧客を追加"
+    new:
+      title: "担当顧客を追加"
+      heading: "担当顧客を追加"
+      back: "一覧に戻る"
+    edit:
+      title: "担当顧客を編集"
+      heading: "担当顧客を編集"
+      show: "この担当顧客を表示"
+      back: "一覧に戻る"
+    show:
+      edit: "この担当顧客を編集"
+      back: "一覧に戻る"
+      destroy: "この担当顧客を削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      submit: "保存する"
+    user_client:
+      office: "会社名"
+      user: "従業員"
+      client: "顧客"
+      note: "備考"
+  user_teams:
+    index:
+      title: "部署所属一覧"
+      heading: "部署所属一覧"
+      show: "この所属情報を表示"
+      new: "所属情報を追加"
+    new:
+      title: "所属情報を追加"
+      heading: "所属情報を追加"
+      back: "一覧に戻る"
+    edit:
+      title: "所属情報を編集"
+      heading: "所属情報を編集"
+      show: "この所属情報を表示"
+      back: "一覧に戻る"
+    show:
+      edit: "この所属情報を編集"
+      back: "一覧に戻る"
+      destroy: "この所属情報を削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      submit: "保存する"
+    user_team:
+      team: "部署"
+      user: "従業員"
+  client_needs:
+    index:
+      title: "顧客ニーズ一覧"
+      heading: "顧客ニーズ一覧"
+      show: "このニーズを表示"
+      new: "顧客ニーズを追加"
+    new:
+      title: "顧客ニーズを追加"
+      heading: "顧客ニーズを追加"
+      back: "一覧に戻る"
+    edit:
+      title: "顧客ニーズを編集"
+      heading: "顧客ニーズを編集"
+      show: "このニーズを表示"
+      back: "一覧に戻る"
+    show:
+      edit: "このニーズを編集"
+      back: "一覧に戻る"
+      destroy: "このニーズを削除"
+    form:
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+      submit: "保存する"
+    client_need:
+      office: "会社名"
+      client: "顧客"
+      week: "曜日"
+      need_type: "種別"
+      start_time: "開始時刻"
+      end_time: "終了時刻"
+      slots: "必要人数"
+  users:
+    index:
+      title: "従業員一覧"
+      heading: "従業員一覧"
+      new: "従業員を追加"
+      shifts: "シフト一覧"
+      clients: "顧客一覧"
+    edit:
+      title: "従業員を編集"
+      heading: "従業員の情報を編集"
+      users: "従業員一覧"
+      confirm_destroy: "本当に削除しますか？"
+    form:
+      email: "メールアドレス"
+      errors:
+        title:
+          one: "%{count}件のエラーがあります。内容を確認してください。"
+          other: "%{count}件のエラーがあります。内容を確認してください。"
+    two_factor:
+      invalid_code: "認証コードが正しくありません。再度お試しください。"
+      persistence_failed: "二段階認証の設定保存に失敗しました。時間をおいて再度お試しください。"
+      setup:
+        users: "従業員シフト"
+        shifts: "シフト一覧"
+    user:
+      name: "氏名"
+      address: "住所"

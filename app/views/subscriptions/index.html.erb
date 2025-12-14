@@ -1,0 +1,47 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "stripe/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<div class="subscription-container">
+  <h1 class="page-title">プラン選択</h1>
+
+  <div class="plans-wrapper">
+    <!-- Free Plan -->
+    <div class="plan-card">
+      <div class="card-content">
+        <h2 class="plan-name">無料プラン</h2>
+        <p class="plan-description">小規模なチームに最適です。</p>
+        <div class="plan-price">
+          ¥0 <span>/月</span>
+        </div>
+        <ul class="features-list">
+          <li>ユーザー数: 5名まで</li>
+          <li>基本的なシフト管理</li>
+          <li>チャット機能</li>
+        </ul>
+        <div class="plan-button disabled">
+          現在のプラン
+        </div>
+      </div>
+    </div>
+
+    <!-- Paid Plan -->
+    <div class="plan-card featured">
+      <div class="featured-badge">おすすめ</div>
+      <div class="card-content">
+        <h2 class="plan-name">スタンダードプラン</h2>
+        <p class="plan-description">成長中のチーム向け。</p>
+        <div class="plan-price">
+          ¥300 <span>/ユーザー/月</span>
+        </div>
+        <ul class="features-list">
+          <li>ユーザー数: 無制限</li>
+          <li>6人目以降は従量課金</li>
+          <li>全ての機能を利用可能</li>
+          <li>優先サポート</li>
+        </ul>
+        <%= button_to "Stripeで決済する", subscriptions_subscribe_path, method: :post, data: { turbo: false }, class: "plan-button primary" %>
+      </div>
+    </div>
+  </div>
+</div>

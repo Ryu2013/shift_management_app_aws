@@ -1,0 +1,26 @@
+<%= turbo_frame_tag "shift_edit" do %>
+<div class="modal open">
+ <%= link_to "✕", team_client_shifts_path(@team, @client) ,class: "back-btn" %>
+    <h2><%= "担当可能従業員" %></h2>
+
+    <div class="flexbox shift-chip-list">
+        <%= button_to "未配置", team_client_shift_path(@team, @client,@shift), method: :patch, params: { shift: { user_id: nil, client_id: @client.id } }, class: ["shift nil", ("night" if @shift.shift_type == "night"), ("escort" if @shift.shift_type == "escort"), "shift-button-narrow"].compact.join(" ") %>
+        <% @client.users.each do |u| %>
+        <%= button_to u.name, team_client_shift_path(@team, @client,@shift), method: :patch, params: { shift: { user_id: u.id, client_id: @client.id } }, class: ["shift", ("night" if @shift.shift_type == "night"), ("escort" if @shift.shift_type == "escort"), "shift-button-narrow"].compact.join(" ") %>
+        <% end %>
+    </div>
+
+  <details>
+    <summary>個別編集</summary>
+
+      <%= render "form", shift: @shift %>
+
+    <div class="flexbox">
+      <div id="shift-form-delete">
+        <%= button_to t(".destroy"), team_client_shift_path(@team, @client, @shift), method: :delete , class: "flex-btn" %>
+      </div>
+    </div>
+
+  </details>
+</div>
+<% end %>

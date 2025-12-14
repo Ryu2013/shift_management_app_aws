@@ -1,0 +1,42 @@
+<% if current_user.role == "admin" %>
+  <div class="flex-box">
+    <%= link_to team_client_shifts_path(@team,@client), class: "back-image-link" do %>
+        <%= image_tag "back-btn.png", alt: t(".users"), class: "back-image" %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="flex-box">
+    <%= link_to employee_shifts_path do %>
+        <%= image_tag "back-btn.png", alt: t(".shifts"), class: "back-image" %>
+    <% end %>
+  </div>
+<% end %>
+
+
+<h1>新規チャット</h1>
+
+<div class="flexbox">
+  <div class="toggle-switch">
+    <%= link_to rooms_path, class: "toggle-selected" do %>
+      既存
+    <% end %>
+
+    <%= link_to new_room_path, class: "toggle-selected active" do %>
+      新規
+    <% end %>
+  </div>
+</div>
+
+<div class="flexbox">
+<% @users.each do |user| %>
+  <%= button_to rooms_path(user_id: user.id), method: :post, data: { turbo: false } do %>
+    <div class="card">
+      <div class="flexbox flex-justify-between flex-nowrap">
+        <div class="flexbox">
+          <%= image_tag user.icon_url, class: "icon icon-lg" %>
+          <%= user.name %>
+        </div>
+    </div>
+  <% end  %>
+  <% end %>
+</div>

@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "shift_new" do %>
+   <div class="modal open">
+
+      <%= link_to "✕", team_client_shifts_path(@team, @client), class: "back-btn" %>
+
+      <h1><%= t(".heading") %></h1>
+
+         <div class="flexbox margin-1">
+         <%= button_to "今月のシフト自動生成",
+               generate_monthly_shifts_team_client_shifts_path(@team, @client, date: @date),
+               method: :post,
+               data: { turbo_confirm: "今月のシフトを生成します。よろしいですか？" },
+               class: "flex-btn" %>
+         </div>
+      <%= render "form", shift: @shift %>
+   </div>
+<% end %>

@@ -1,0 +1,42 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "static/how_to_use", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= render "how_to_use_header" %>
+
+<div class="how-to-use-container">
+  <div class="how-to-use-container">
+  <h1>シフト作成方法</h1>
+
+  <p>このアプリケーションのシフト作成方法を説明します。</p>
+
+  <h2>メインページから顧客を選択しシフト作成ボタンを押してください。</h2>
+  <%= image_tag "shift1.png", class: "how-to-use-image" %>
+
+  <h2>毎週のシフトを登録しておきます</h2>
+  <%= image_tag "shift2.png", class: "how-to-use-image" %>  
+
+  <%= image_tag "shift3.png", class: "how-to-use-image" %>
+
+  <h2>次に担当可能な従業員を選択しておきます</h2>
+  <%= image_tag "shift4.png", class: "how-to-use-image" %>
+  <p>お客様、従業員が住所を登録している場合は家が近い順に表示されます</p>
+
+  <h2>メインページに戻りシフト新規作成ボタンを押します</h2>
+  <%= image_tag "shift5.png", class: "how-to-use-image" %>
+  <h2>次に一か月分のシフトを生成ボタンを押してください</h2>
+  <%= image_tag "shift6.png", class: "how-to-use-image" %>
+
+  <h2>シフトが完成しました</h2>
+  <%= image_tag "shift7.png", class: "how-to-use-image" %>
+
+  <h2>またシフト新規作成ページより一日分のシフトも作成できます</h2>
+  <p>急遽、同行などが入った場合等にご活用ください</p>
+
+  <h2>生成されたシフトをクイックし担当者を選択してください</h2>
+  <%= image_tag "shift8.png", class: "how-to-use-image" %>
+  <%= image_tag "shift9.png", class: "how-to-use-image" %>
+  <h2>これでシフト登録が完成しました</h2>
+  <p>登録されたシフトは従業員へ自動で共有されます</p>
+</div>
+</div>

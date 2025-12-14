@@ -1,0 +1,20 @@
+<% content_for :title, "従業員の情報を編集" %>
+
+  <% if @team.users.exists? %>
+      <%= link_to team_users_path(@team) do %>
+        <%= image_tag "back-btn.png", alt: t(".users"), class: "back-image" %>
+      <% end %>
+  <% end %>
+
+<h1><%= @user.name %></h1>
+
+<%= render "form", user: @user %>
+
+  <div class="flexbox">
+    <% if @user != current_user %>
+      <%= button_to "従業員を消去", [@team, @user], method: :delete, data: { turbo_confirm: t(".confirm_destroy") }, class: "flex-btn" %>
+    <% else %>
+      自分のアカウントは削除できません。
+    <% end %>
+    <%= link_to "シフト確認", employee_shifts_path(user_id: @user.id), class: "flex-btn" %>
+  </div>

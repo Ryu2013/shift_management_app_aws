@@ -1,0 +1,556 @@
+/* =========================================
+   0. Variables (変数定義)
+   ========================================= */
+:root {
+  --primary-color: #69C5FF;
+  --primary-dark: #4a90e2;
+  --accent-color: #F19494;
+  --d-red: #E35B5B;
+  --text-color: #333;
+  --text-light: #666;
+  --bg-color: #fefdf8;
+  --bg-alt: #f4f9ff;
+  --green: #4CAF50;
+}
+
+/* =========================================
+   1. Base (リセット・基本設定)
+   HTMLタグそのものへのスタイル
+   ========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+html {
+  font-size: 100%;
+  /* 初期サイズ設定 */
+  background-color: var(--bg-color);
+  /* 背景画像の指定（SP版デフォルト） */
+  background-image: url("background-mobile.jpg");
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: 100%;
+}
+
+body {
+  position: relative;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: center;
+}
+
+label {
+  text-align: center;
+  display: block;
+}
+
+a {
+  color: inherit;
+  font-size: 0.8rem;
+}
+
+li {
+  list-style: none;
+}
+
+/* 水平線（本来はクラス推奨） */
+hr {
+  border: none;
+  background-color: black;
+  height: 2px;
+  margin: 0.5rem 1rem;
+  border-radius: 50%;
+  display: none;
+}
+
+/* ボタンのリセット */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* フォーム入力欄の基本 */
+input:not([type="submit"]),
+select,
+textarea {
+  padding: 0.2em;
+  border: 0.2rem solid #333333;
+  border-radius: 4px;
+  margin: 0 0.5rem 0.5rem 0.5rem;
+  box-sizing: border-box;
+  width: calc(100% - 1rem);
+}
+
+/* 送信ボタンの基本（Moduleに入れることも検討） */
+input[type="submit"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4em 0.2em;
+  border: 2px solid #333333;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 2px 3px rgba(2, 2, 2, 0.188);
+}
+
+
+/* =========================================
+   2. Layout (大枠の構造)
+   ========================================= */
+/* ナビゲーションのコンテナ */
+.menus {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff8f000;
+  align-items: center;
+  /* アニメーション関連 */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.6s ease, opacity 0.6s ease;
+}
+
+/* 汎用フレックスコンテナ */
+.flexbox {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-justify-between {
+  justify-content: space-between;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.flex-align-start {
+  align-items: flex-start;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+
+/* =========================================
+   3. Module (部品・コンポーネント)
+   ========================================= */
+/* ロゴ */
+.pc-logo {
+  width: 110px;
+  display: block;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: block;
+}
+
+/* ハンバーガーアイコン */
+.hamburger {
+  width: 50px;
+  margin: 0.2rem 1rem 0 auto;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* メニュー項目 */
+.menu {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+/* カード */
+.card {
+  background-color: #fff;
+  border: solid 0.1rem #000000;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 1rem;
+}
+
+/* 汎用ボタン */
+.flex-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4em 0.2em;
+  border: 2px solid #666666;
+  border-radius: 30px;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s;
+  height: 40px;
+  box-shadow: 2px 3px rgba(2, 2, 2, 0.188);
+  margin: 0.1rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+/* 汎用テキスト/マージン/ボックス */
+.error-text {
+  color: red;
+}
+
+.block-label {
+  display: block;
+}
+
+.helper-text {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #888;
+}
+
+.text-blue {
+  color: blue;
+}
+
+.text-red {
+  color: red;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.font-large {
+  font-size: 1.5rem;
+}
+
+.mt-05 {
+  margin-top: 0.5em;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-1-5 {
+  margin-top: 1.5rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.m-1 {
+  margin: 1rem;
+}
+
+.m-20 {
+  margin: 20px;
+}
+
+.ml-1 {
+  margin-left: 1rem;
+}
+
+.hidden-field {
+  display: none;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-3rem {
+  width: 3rem;
+}
+
+.float-right {
+  float: right;
+}
+
+.visible-hr {
+  display: block;
+  border: none;
+  border-top: 1px solid #ccc;
+  height: 1px;
+  margin: 1rem 0;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+.alert-neutral {
+  background-color: #f8f9fa;
+  border: 1px solid #dae0e5;
+  color: #383d41;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+.alert-info {
+  background-color: #9cd4f7ff;
+  border: 1px solid #f5c6cb;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+.btn-wide {
+  width: auto;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
+
+.icon-lg {
+  height: 80px;
+  width: 80px;
+}
+
+.icon-md {
+  height: 60px;
+  width: 60px;
+}
+
+.icon-xl {
+  height: 300px;
+  width: 300px;
+}
+
+.rounded-full {
+  border-radius: 50%;
+}
+
+.inline-form {
+  display: inline-block;
+}
+
+.chat-dot {
+  color: var(--accent-color);
+  margin-right: 5px;
+}
+
+.text-small {
+  font-size: 0.85rem;
+}
+
+.badge-new {
+  color: var(--d-red);
+  font-size: 0.8em;
+  margin-left: 5px;
+}
+
+/* 戻るボタン画像 */
+.back-image {
+  width: 50px;
+  margin: 1rem 2rem 0 1rem;
+  cursor: pointer;
+}
+
+/* 戻るボタンテキスト */
+.back-btn {
+  font-size: 1.5rem;
+  color: #E35B5B;
+  font-weight: bold;
+  float: right;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+/* Google Map ボタン */
+.google-map-btn {
+  background-color: #fff;
+  border: 1px solid #dadce0;
+  color: #3c4043;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  gap: 0.6rem;
+  padding: 0.5em 1.2em;
+  border-radius: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+/* プロフィールアイコン */
+.icon {
+  border-radius: 50%;
+}
+
+/* Google Map アイコン */
+.map-icon {
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+.toggle-switch {
+  display: inline-flex;
+  border: 2px solid #666666;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.toggle-selected {
+  padding: 8px 18px;
+  text-decoration: none;
+  color: #333333;
+  background: #FFF8F0;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.toggle-selected.active {
+  background: #4CAF50;
+  color: #FFF8F0;
+}
+
+.toggle-selected:not(.active):hover {
+  background: #4CAF50;
+  color: #111827;
+}
+
+/* =========================================
+   4. State (状態変化)
+   ========================================= */
+/* メニューが開いた状態 */
+.open-menus {
+  max-height: 100vh;
+  opacity: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: #fff8f0;
+}
+
+/* Google Map ボタンのホバー */
+.google-map-btn:hover {
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  color: #202124;
+}
+
+
+/* =========================================
+   5. Utility (調整用)
+   ========================================= */
+.margin-mobile {
+  margin-top: 4rem;
+}
+
+
+/* =========================================
+   6. Media Queries (レスポンシブ対応)
+   ========================================= */
+/* PC/タブレット用スタイル */
+@media (min-width: 450px) {
+
+  /* Baseの上書き */
+  html {
+    font-size: 125%;
+    background-color: #FFF8F0;
+    background-image: url("background.jpg");
+    /* PC用画像 */
+    background-position: center top;
+    background-repeat: repeat-y;
+  }
+
+  hr {
+    display: block;
+  }
+
+  /* Moduleの上書き */
+  .pc-logo {
+    width: 90px;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  /* Layoutの上書き (メニューを横並びに) */
+  .menus {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+    flex-direction: row;
+    position: static;
+    background-color: transparent;
+    max-height: none;
+    opacity: 1;
+    height: auto;
+    transition: none;
+  }
+
+  .menu {
+    display: flex;
+    align-self: center;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+/* PWA用のスタイル調整 */
+@media (display-mode: standalone) {
+  .turbo-progress-bar {
+    display: none !important;
+  }
+}

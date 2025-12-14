@@ -1,0 +1,12 @@
+  <div class="flexbox">
+    <%= image_tag "logo.png", alt: "ロゴ画像", class: "pc-logo" %>
+    <%= image_tag "hamburger.png", alt: "ハンバーガーメニュー", class: "hamburger" ,id: "hamburger" %>
+  </div>
+  <div class="menus">
+    <%= render "shared/chat_link", user: current_user, css_class: "menu margin-mobile" %>
+    <%= link_to "従業員情報の変更", edit_user_registration_path, class: "menu"%>
+    <%= link_to "二段階認証", users_two_factor_setup_path, class: "menu" %>
+    <%= link_to "ログアウト",
+              destroy_user_session_path,
+              data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" }, class: "menu" %>
+  </div>

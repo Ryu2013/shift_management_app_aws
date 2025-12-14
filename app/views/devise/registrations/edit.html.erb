@@ -1,0 +1,93 @@
+<% content_for :head do %>
+  <%# ★ここを変更: user/edit ではなく devise/registrations を読み込む %>
+  <%= stylesheet_link_tag "devise/registrations", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<div class="auth-container">
+  <div class="auth-card fade-in-up">
+
+    <%# --- ヘッダーエリア（戻るボタン + タイトル） --- %>
+    <div class="auth-header-row">
+      <%= link_to employee_shifts_path(current_user), class: "back-link-modern" do %>
+         <%= image_tag "back-btn.png", alt: t(".users"), class: "back-image" %>
+      <% end %>
+    </div>
+      <h2 class="auth-title"><%= t(".heading", resource: resource_name.to_s.humanize) %></h2>
+
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "auth-form" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%# === セクション1: プロフィール情報 === %>
+      <div class="form-section">
+        <h3 class="section-label">基本情報</h3>
+
+        <div class="flexbox"  >
+        <%= image_tag current_user.icon_url, class: "icon icon-xl" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :icon, "アイコン画像" %>
+          <%= f.file_field :icon %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :name, t(".name"), class: "form-label" %>
+          <%= f.text_field :name, autocomplete: "name", class: "form-input", placeholder: "氏名を入力" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :address, t(".address"), class: "form-label" %>
+          <%= f.text_field :address, class: "form-input", placeholder: "住所を入力" %>
+        </div>
+
+      </div>
+
+      <hr class="section-divider">
+
+      <%# === セクション2: アカウント設定 === %>
+      <div class="form-section">
+        <h3 class="section-label">ログイン情報</h3>
+
+        <div class="form-group">
+          <%= f.label :email, t(".email"), class: "form-label" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+        </div>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div class="alert-info">
+            <%= t(".pending_confirmation", email: resource.unconfirmed_email) %>
+          </div>
+        <% end %>
+
+        <%# パスワード変更エリア %>
+        <div class="password-change-area">
+          <p class="area-note">※パスワードを変更しない場合は空欄のままにしてください</p>
+          
+          <div class="form-group">
+            <%= f.label :password, t(".password"), class: "form-label" %>
+            <span class="password-hint"><%= t(".password_length", count: @minimum_password_length) if @minimum_password_length %></span>
+            <%= f.password_field :password, autocomplete: "new-password", class: "form-input", placeholder: "新しいパスワード" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password_confirmation, t(".password_confirmation"), class: "form-label" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input", placeholder: "新しいパスワード（確認）" %>
+          </div>
+        </div>
+
+        <%# 現在のパスワード %>
+        <div class="form-group current-password-group">
+          <%= f.label :current_password, t(".current_password"), class: "form-label" %>
+          <div class="note-text"><%= t(".current_password_note") %></div>
+          <%= f.password_field :current_password, autocomplete: "current-password", class: "form-input" %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit t(".submit"), class: "btn btn-primary btn-block shadow-pulse" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

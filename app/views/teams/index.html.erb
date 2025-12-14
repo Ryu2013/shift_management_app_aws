@@ -1,0 +1,36 @@
+
+<% content_for :title, t(".title") %>
+<%= turbo_frame_tag "team_edit" do %>
+<% end %>
+
+<%= link_to  team_client_shifts_path(@team,@client) do %>
+  <%= image_tag "back-btn.png", alt: t(".shifts"), class: "back-image" %>
+<% end %>
+
+<h1><%= t(".heading") %></h1>
+
+<div class="flexbox">
+  <%= turbo_frame_tag "new_team" do %>
+  <%= link_to t(".new"), new_team_path ,class: "flex-btn" %>
+  <% end %>
+
+  <div class="toggle-switch">
+    <%= link_to teams_path, class: "toggle-selected active" do %>
+      部署
+    <% end %>
+
+    <%= link_to edit_office_path(@office), class: "toggle-selected" do %>
+      会社
+    <% end %>
+  </div>
+</div>
+
+<div class="flexbox">
+  <p>部署を消去するには従業員、顧客がいない必要があります。</p>
+</div>
+
+<div id="teams">
+  <% @teams.each do |team| %>
+    <%= render team %>
+  <% end %>
+</div>

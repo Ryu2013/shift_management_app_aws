@@ -1,0 +1,13 @@
+  <div id="<%= dom_id(shift) %>" class="card" >
+
+    <div class="flexbox">
+      <div><%= shift.user&.name || "未配置" %></div>
+      <div><%= shift.start_time.strftime("%H:%M") %> - <%= shift.end_time.strftime("%H:%M") %></div>
+    </div>
+
+    <div class="flexbox">  
+      <div><%= t("activerecord.attributes.shift.shift_types.#{shift.shift_type}") %></div>
+      <div class="flex-btn <%= shift.work_status == "work" ? "work" : "not_work" %>"><%= shift.work_status == "work" ? "出勤済" : "未出勤" %></div>
+    </div>
+    
+  </div>

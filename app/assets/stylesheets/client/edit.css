@@ -1,0 +1,14 @@
+.shift {
+  background: #F19494;
+  margin: 0.2em;
+  padding: 0.2em;
+  border-radius: 0 4px 0 0;
+  border-left: solid 4px #E35B5B;
+  font-size: 1rem;
+  text-align: left;
+}
+.night {
+  color: #333333;
+  border-left: solid 4px #69C5FF;
+  background: #B4E2FF;
+}

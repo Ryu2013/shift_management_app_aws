@@ -1,0 +1,37 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "room/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<% if current_user.role == "admin" %>
+  <div class="flex-box">
+    <%= link_to team_client_shifts_path(@team,@client), class: "back-image-link" do %>
+        <%= image_tag "back-btn.png", alt: t(".users"), class: "back-image" %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="flex-box">
+    <%= link_to employee_shifts_path do %>
+        <%= image_tag "back-btn.png", alt: t(".shifts"), class: "back-image" %>
+    <% end %>
+  </div>
+<% end %>
+
+<h1>チャットルーム</h1>
+<div class="flexbox">
+  <div class="toggle-switch">
+    <%= link_to rooms_path, class: "toggle-selected active" do %>
+      既存
+    <% end %>
+
+    <%= link_to new_room_path, class: "toggle-selected" do %>
+      新規
+    <% end %>
+  </div>
+</div>
+
+
+<%= turbo_stream_from current_user %>
+
+  <% @rooms.each do |room| %>
+    <%= render "room", room: room, current_user: current_user %>
+  <% end %>

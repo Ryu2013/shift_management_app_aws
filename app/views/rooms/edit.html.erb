@@ -1,0 +1,63 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "room/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= link_to room_path(@room), class: "back-image-link", data: { turbo: false } do %>
+    <%= image_tag "back-btn.png", alt: "戻る", class: "back-image" %>
+<% end %>
+
+<h1>チャット設定</h1>
+
+<div class="card mb-1">
+  <%= form_with(model: @room, local: true) do |form| %>
+    <div class="flexbox justify-start gap-10">
+      <%= form.label :name, "ルーム名" %>
+      <%= form.text_field :name %>
+      <%= form.submit "変更", class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
+<h2>メンバー追加</h2>
+<div class="card">
+    <%= form_with(url: room_entries_path(@room), local: true, method: :post) do |form| %>
+        <div class="flexbox justify-start gap-10">
+            <% if @users.present? %>
+                <%= form.collection_select :user_id, @users, :id, :name, { prompt: "ユーザーを選択してください" }, { class: "form-control" } %>
+                <%= form.submit "追加", class: "btn-primary" %>
+            <% else %>
+                <p>追加できるユーザーがいません</p>
+            <% end %>
+        </div>
+    <% end %>
+</div>
+
+<h2>参加メンバー</h2>
+<ul class="room-list">
+  <% @room.entries.each do |entry| %>
+    <div class="card">
+      <div class="flexbox flex-justify-between flex-nowrap">
+        <div class="flexbox justify-start gap-10">
+          <div class="room-icon">
+             <% if entry.user.icon.attached? %>
+                <%= image_tag entry.user.icon, class: "icon-md rounded-full" %>
+              <% else %>
+                <%= image_tag "default_icon.png", class: "icon-md rounded-full" %>
+              <% end %>
+          </div>
+          <div class="room-content">
+            <div class="room-name">
+              <%= entry.user.name %>
+            </div>
+          </div>
+        </div>
+        
+        <div class="room-meta">
+        <% if entry.user_id != current_user.id %>
+          <%= button_to "削除", entry_path(entry), method: :delete, data: { turbo: false, confirm: "本当に削除しますか？" }, class: "delete-btn", form: { class: "inline-form" } %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</ul>

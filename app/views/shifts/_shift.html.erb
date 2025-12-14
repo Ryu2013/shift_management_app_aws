@@ -1,0 +1,8 @@
+<div id="<%= dom_id shift %>">
+  <%= link_to edit_team_client_shift_path(shift.client.team, shift.client, shift), data: { turbo_frame: "shift_edit" } do %>
+    <div class="shift <%= "night" if shift.shift_type == "night" %> <%= "escort" if shift.shift_type == "escort" %> <%= "nil" if shift.user.nil? %>">
+      <%= shift.user&.name || "未配置" %> <br>
+      <%= shift.start_time.strftime("%H:%M") %> - <%= shift.end_time.strftime("%H:%M") %>
+    </div>
+  <% end %>
+</div>

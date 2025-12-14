@@ -1,0 +1,152 @@
+.shift-form {
+  display: none;
+}
+
+.shift {
+  background: #F19494;
+  margin: 0.2em;
+  padding: 0.2em;
+  border-radius: 0 6px 0 0;
+  border-left: solid 4px #E35B5B;
+  font-size: 0.5rem;
+  text-align: left;
+  color: #333333;
+}
+
+/* Shiftの色説明 */
+.shift.ex{
+  font-size: 1em;
+}
+.shift.ex-night {
+  background: #B4E2FF;
+  border-left: solid 4px #69C5FF;
+  font-size: 1em;
+}
+.shift.ex-escort {
+  background: #C8F7C5;
+  border-left: solid 4px #4CAF50;
+  font-size: 1em;
+}
+.shift.ex-nil {
+  background: #E0E0E0;
+  border-left: solid 4px #A0A0A0;
+  font-size: 1em;
+}
+
+.night {
+  color: #333333;
+  border-left: solid 4px #69C5FF;
+  background: #B4E2FF;
+}
+
+.hidden-month-field {
+  display: none;
+}
+
+.month-display {
+  width: 2.5rem;
+}
+
+.auto-width-select {
+  width: auto;
+}
+
+.escort {
+  color: #333333;
+  border-left: solid 4px #4CAF50;
+  background: #C8F7C5;
+}
+
+
+.nil {
+  color: #333333;
+  background: #E0E0E0;
+}
+
+.error-text {
+  color: red;
+}
+
+.block-label {
+  display: block;
+}
+
+.shift-chip-list {
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.shift-button-narrow {
+  font-size: 0.8rem;
+}
+
+.subscription-notice {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+.subscription-muted {
+  background-color: #f8f9fa;
+  border: 1px solid #dae0e5;
+  color: #383d41;
+  padding: 1em;
+  border-radius: 4px;
+  margin-bottom: 1em;
+}
+
+.subscription-text-spacing {
+  margin-top: 0.5em;
+}
+
+.wide-button {
+  width: auto;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+}
+
+.subscription-restart-button {
+  width: auto;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  background-color: #69C5FF;
+  color: #fff;
+  border: none;
+}
+
+.margin-top-1-5 {
+  margin-top: 1.5rem;
+}
+
+.margin-1 {
+  margin: 1rem;
+}
+
+.calendar {
+  width: 95%;
+  margin: 0 auto;
+  text-align: center;
+  display: grid;
+  height: 95vh;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 1.5em repeat(6, 1fr);
+}
+
+.today {
+  color: rgb(0, 167, 250);
+  border-radius: 4px;
+}
+
+.week {
+  font-weight: bold;
+}
+
+.day{
+  border: 1px dashed #aeaeaeff;
+  padding: .5em 0;
+  background-color: #ffFFF8F0;
+}

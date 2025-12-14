@@ -1,0 +1,12 @@
+<div id="<%= dom_id message %>" class="message-row other-row message-user-<%= message.user_id %>">
+    <div class="message-header">
+      <span class="user-name user-name-offset" ><%= message.user.name %></span>
+    </div>
+    <div class="flexbox">
+    <%= image_tag message.user.icon_url, class: "icon icon-lg" %>
+    <div class="message-bubble other-message">
+      <%= message.content %>
+      <div class="message-time"><%= message.created_at.strftime("%H:%M") %></div>
+    </div>
+    </div>
+</div>

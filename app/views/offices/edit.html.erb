@@ -1,0 +1,88 @@
+<% content_for :title, t(".title") %>
+
+<%= link_to team_client_shifts_path(@office.teams.first, @office.clients.first) do %>
+ <%= image_tag "back-btn.png", alt: t(".shifts"), class: "back-image" %>
+<% end %>
+
+<h1><%= t(".heading") %></h1>
+
+<div class="flexbox">
+  <div class="toggle-switch">
+    <%= link_to teams_path, class: "toggle-selected" do %>
+      部署
+    <% end %>
+
+    <%= link_to edit_office_path(@office), class: "toggle-selected active" do %>
+      会社
+    <% end %>
+  </div>
+</div>
+
+<% if %w[active trialing past_due unpaid].include?(@office.subscription_status) %>
+
+  <div class="card">
+   <h3>契約状況</h3>
+  
+    <% if @office.cancel_at_period_end? %>
+      <div class="alert-warning">
+        <p><strong>⚠️ 解約予約済みです</strong></p>
+        <p class="mt-05">
+          <%= @office.current_period_end.strftime('%Y年%m月%d日') %> までご利用いただけます。<br>
+          その後、自動的に解約されます。
+        </p>
+      </div>
+
+    <% else %>
+      <div class="alert-success">
+        <p><strong>✅ 契約中（自動更新）</strong></p>
+        <p class="mt-05">
+          次回更新日: <%= @office.current_period_end.strftime('%Y年%m月%d日') %>
+        </p>
+      </div>
+    <% end %>
+
+      <div class="flexbox mt-1-5">
+      <%= button_to "契約内容の確認・変更・解約", 
+          subscriptions_portal_path, 
+          method: :post, 
+          data: { turbo: false }, 
+          class: "flex-btn btn-wide" # 少し横幅を広げる調整
+      %>
+    </div>
+  </div>
+
+<% elsif @office.subscription_status == 'canceled' %>
+  <div class="card">
+  <h3>契約状況</h3>
+    <div class="alert-neutral">
+      <p>現在は解約済みです。</p>
+    </div>
+
+    <div class="flexbox mt-1-5">
+    <%= button_to "契約内容の確認・変更・解約", 
+        subscriptions_portal_path, 
+        method: :post, 
+        data: { turbo: false }, 
+        class: "flex-btn btn-wide" # 少し横幅を広げる調整
+    %>
+    </div>
+  </div>
+<% else %>
+  <div class="card">
+  <h3>契約状況</h3>
+    <div class="alert-info">
+      <p>サブスクリプションのご契約はこちらから</p>
+    </div>
+
+    <div class="flexbox mt-1-5">
+    <%= button_to "サブスクリプション契約へ", 
+        subscriptions_index_path, 
+        method: :get,
+        data: { turbo: false }, 
+        class: "flex-btn btn-wide" # 少し横幅を広げる調整
+    %>
+    </div>
+  </div>
+<% end %>
+
+<%= render "form", office: @office %>

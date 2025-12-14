@@ -1,0 +1,3 @@
+<div id="<%= dom_id u,:not %>">
+<%= button_to u.name, team_client_user_clients_path(team, client), method: :post, params: { user_client: { user_id: u.id, client_id: client.id } }, class: "flex-btn" %>
+</div>

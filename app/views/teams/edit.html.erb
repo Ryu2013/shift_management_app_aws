@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "team_edit" do %>
+ <div class="modal open">
+   <%= link_to "✕", teams_path ,class: "float-right text-red font-bold" %>
+   <h1><%= t(".heading") %></h1>
+
+   <%= render "form", team: @team %>
+ </div>
+<% end %>

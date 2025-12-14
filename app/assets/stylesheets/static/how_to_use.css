@@ -1,0 +1,130 @@
+.how-to-use-nav {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.how-to-use-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.how-to-use-nav li {
+    margin: 0 10px;
+}
+
+.how-to-use-nav a {
+    text-decoration: none;
+    color: #4CAF50;;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.how-to-use-nav a:hover {
+    background-color: #e9ecef;
+    text-decoration: none;
+}
+
+.how-to-use-nav a.active {
+    background-color: #4CAF50;;
+    color: white;
+}
+
+.how-to-use-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.how-to-use-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.how-to-use-container h2 {
+    font-size: 18px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.how-to-use-container p {
+    margin-bottom: 15px;
+}
+
+.how-to-use-container ol {
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.how-to-use-container li {
+    margin-bottom: 5px;
+}
+
+.how-to-use-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.how-to-use-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.hamburger-menu {
+    display: none;
+    text-align: right;
+    padding: 0 20px;
+}
+
+.hamburger-icon {
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .how-to-use-container {
+        padding: 15px;
+    }
+
+    .hamburger-menu {
+        display: block;
+    }
+
+    .how-to-use-nav ul {
+        display: none;
+        /* Hide by default on mobile */
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .how-to-use-nav li {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .how-to-use-nav a {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+}

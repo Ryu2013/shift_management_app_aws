@@ -1,0 +1,47 @@
+<% content_for :title, t(".title") %>
+<% content_for :head do %>
+  <%= stylesheet_link_tag "client/index", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<%= link_to team_client_shifts_path(@team, @client) do %>
+ <%= image_tag "back-btn.png", alt: t(".shifts"), class: "back-image" %>
+<% end %>
+
+<h1><%= @team.name %></h1>
+
+<%= form_with url: team_clients_path(@team), method: :get, local: true do |f| %>
+  <div class="flexbox m-20"> 
+
+    <%= f.collection_select :selected_team_id,
+                            @teams,
+                            :id,
+                            :name,
+                            { prompt: "部署を変更"  },
+                            { onchange: "this.form.requestSubmit();" } %>
+
+  </div>
+<% end %>
+
+<div class="flexbox">
+  <%= link_to t(".new"), new_team_client_path(@team), class: "flex-btn" %>
+
+  <div class="toggle-switch">
+    <%= link_to team_users_path(@team), class: "toggle-selected" do %>
+      従業員
+    <% end %>
+
+    <%= link_to team_clients_path(@team), class: "toggle-selected active" do %>
+      顧客
+    <% end %>
+  </div>
+</div>
+
+<div id="clients">
+  <% @clients.each do |client| %>
+      <%= link_to edit_team_client_path(@team, client) do %>
+        <div class="card">
+        <%= render client %>
+        </div>
+      <% end %>
+  <% end %>
+</div>

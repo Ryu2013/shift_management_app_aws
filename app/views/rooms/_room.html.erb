@@ -1,0 +1,25 @@
+<div class="card" id="<%= dom_id(room) %>">
+  <div class="flexbox flex-justify-between flex-nowrap">
+    <%= link_to room_path(room), class: "room-link", data: { turbo: false } do %>
+      <div class="room-icon">
+        <% partner = room.users.find { |u| u.id != current_user.id } %>
+        <%= image_tag partner&.icon_url, class: "icon icon-lg" %>
+      </div>
+      <div class="room-content">
+        <div class="room-name">
+          <%= room.name || partner&.name %>
+          <% if room.has_unread_messages?(current_user) %>
+            <span class="badge-new">新着</span>
+          <% end %>
+        </div>
+        <div class="room-message">
+          <%= room.messages&.order(created_at: :asc)&.last&.content  %>  <span><%= room.messages&.last&.created_at&.strftime("%H:%M") %></span>
+        </div>
+      </div>
+    <% end %>
+    
+    <div class="room-meta">
+      <%= button_to "削除", room_path(room), method: :delete, data: { turbo: false }, class: "delete-btn", form: { class: "inline-form" } %>
+    </div>
+  </div>
+</div>

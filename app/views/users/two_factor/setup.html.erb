@@ -1,0 +1,16 @@
+<% if current_user.role == "admin" %>
+    <%= link_to team_client_shifts_path(@team,@client), class: "back-image-link" do %>
+        <%= image_tag "back-btn.png", alt: t(".users"), class: "back-image" %>
+    <% end %>
+<% else %>
+    <%= link_to employee_shifts_path do %>
+        <%= image_tag "back-btn.png", alt: t(".shifts"), class: "back-image" %>
+    <% end %>
+<% end %>
+
+<% if current_user.otp_required_for_login %>
+  <h2><%= current_user.name %>様</h2>
+  <p class="text-center">二段階認証は既に有効化されています。</p>
+<% else %>  
+  <%= render "form" %>
+<% end %>

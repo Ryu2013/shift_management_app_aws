@@ -1,0 +1,43 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "devise/registrations", "data-turbo-track": "dynamic" %>
+<% end %>
+
+<div class="auth-container">
+  <div class="auth-card fade-in-up">
+
+    <div class="auth-header">
+      <h2 class="auth-title"><%= t(".heading") %></h2>
+      <p class="auth-subtitle">
+        確認メールが届きませんか？<br>
+        登録したメールアドレスを入力して再送信してください。
+      </p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: "auth-form" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="form-group">
+        <%= f.label :email, t(".email"), class: "form-label" %>
+        <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+              class: "form-input",
+              placeholder: "example@email.com" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit t(".submit"), class: "btn btn-primary btn-block shadow-pulse" %>
+      </div>
+    <% end %>
+
+    <div class="auth-footer-links">
+      
+      <%= link_to "ログイン画面に戻る", new_session_path(resource_name), class: "text-link" %>
+      <br><br>
+      <span class="text-small text-muted">または</span><br>
+      <%= link_to "新規登録はこちら", new_registration_path(resource_name), class: "text-link-sm" %>
+    </div>
+
+  </div>
+</div>

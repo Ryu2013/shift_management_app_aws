@@ -1,0 +1,44 @@
+<%= turbo_frame_tag "user_client" do %>
+  <div class="modal open">
+      <%= turbo_stream_from [@client, :user_clients] %>
+
+       <%= link_to edit_team_client_path(@team, @client) do %>
+          <div class="back-btn">✕</div>
+      <% end %>
+
+      <h2><%= @team.name %></h2>
+
+      <h2>担当不可</h2>
+
+       <% if @client.latitude && @client.longitude %>
+
+        <p class="w-100 ml-1">家が近い順(住所未登録は後ろになります)</p>
+        <div id="not_users" class="flexbox">
+        <% @users&.each do |u| %>
+          <%= render partial: "not_user_client", locals: { u: u, team: @team, client: @client } %>
+        <% end %>
+        </div>
+
+       <% else %>
+
+        <p class="w-100 ml-1">お客様、従業員の住所を登録すると近い順になります。</p>
+         <div id="not_users" class="flexbox">
+          <% @users&.each do |u| %>
+            <%= render partial: "not_user_client", locals: { u: u, team: @team, client: @client } %>
+          <% end %>
+         </div>
+
+       <% end %>
+
+
+      <hr class="visible-hr">
+
+      <h2>担当可能</h2>
+
+      <div id="user_clients" class="flexbox">
+        <% @user_clients.select(&:persisted?).each do |u| %>
+          <%= render u, locals: {team: @team, client: @client } %>
+        <% end %>
+      </div>
+  </div>
+<% end %>

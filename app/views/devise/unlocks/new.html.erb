@@ -1,0 +1,31 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag "devise/registrations", "data-turbo-track": "dynamic" %>
+<% end %>
+<div class="auth-container">
+  <div class="auth-card fade-in-up">
+    <div class="auth-header">
+      <h2 class="auth-title"><%= t(".heading") %></h2>
+      <p class="auth-subtitle">アカウントのロックを解除するために、登録済みのメールアドレスを入力してください。<br>解除用のリンクをメールでお送りします。</p>
+    </div>
+
+<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :email, t(".email"), class: "form-label" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-input" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit t(".submit"), class: "btn btn-primary btn-block shadow-pulse" %>
+  </div>
+<% end %>
+
+    <div class="auth-footer-links">
+      <div>
+        <span class="text-muted text-small">アカウントにログインできますか？</span><br>
+        <%= link_to "ログインはこちら", new_session_path(resource_name), class: "text-link" %>
+
+
+  </div>
+</div>

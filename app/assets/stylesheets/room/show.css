@@ -1,0 +1,158 @@
+.room-members {
+  white-space: nowrap;      /* 折り返さない */
+  overflow: hidden;         /* はみ出し部分を隠す */
+  text-overflow: ellipsis;  /* はみ出し部分を ... 表示 */
+}
+
+.room-wrapper {
+  position: relative;
+}
+
+.room-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.room-title {
+  display: inline-block;
+  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+
+/* メッセージエリア */
+.messages-container {
+    height: calc(100vh - 120px);
+    /* ヘッダーとフッターの高さを引く */
+    overflow-y: scroll;
+    padding: 10px;
+    padding-bottom: 20px;
+}
+
+/* メッセージ行（共通） */
+.message-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    max-width: 80%;
+}
+
+.message-own {
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+/* 自分のメッセージ行 */
+.my-row {
+    align-items: flex-end;
+    margin-left: auto;
+    /* 右寄せ */
+}
+
+/* 相手のメッセージ行 */
+.other-row {
+    align-items: flex-start;
+    /* 左寄せ */
+}
+
+/* ユーザー名（相手のみ） */
+.message-header {
+    font-size: 0.8rem;
+    color: #333;
+    margin-bottom: 2px;
+    margin-left: 5px;
+}
+
+/* 吹き出し（共通） */
+.message-bubble {
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    max-width: 100%;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--text-color);
+}
+
+/* 自分の吹き出し */
+.my-message {
+    background-color: #8de055;
+    color: #000;
+    border-top-right-radius: 0;
+    /* 右上の角を尖らせる */
+}
+
+/* 相手の吹き出し */
+.other-message {
+    background-color: #ffffff;
+    color: #000;
+    border-top-left-radius: 0;
+    /* 左上の角を尖らせる */
+}
+
+/* 時間表示 */
+.message-time {
+    font-size: 0.65rem;
+    color: #888;
+    margin-top: 2px;
+    text-align: right;
+    min-width: 30px;
+}
+
+.my-message .message-time {
+    color: #555;
+}
+
+.icon-hidden {
+    display: none;
+}
+
+.user-name-offset {
+    margin-left: 80px;
+}
+
+.message-separator {
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+}
+
+.message-separator-text {
+    background: #fff;
+    padding: 0 10px;
+    color: #999;
+}
+
+.message-form-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.message-input {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.message-submit {
+    padding: 5px 10px;
+    margin-right: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+/* フォームエリアの調整（必要に応じて） */
+#message_form {
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
