@@ -1,12 +1,10 @@
-
 default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV["POSTGRES_USER"] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  username: <%= ENV.fetch("DB_USERNAME", "postgres") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "password") %>
   port: 5432
-
 
 development:
   <<: *default
@@ -20,5 +18,5 @@ test:
 
 production:
   <<: *default
+  host: database-1.c3cyk6emc6oj.ap-northeast-1.rds.amazonaws.com
   database: app_production
-  url: <%= ENV['DATABASE_URL'] %>
