@@ -48,7 +48,7 @@ Rails.application.configure do
   # config.assume_ssl = true
 
   # アプリへのすべてのアクセスを SSL に強制し、Strict-Transport-Security を使用し、セキュアクッキーを有効にします。
-  config.force_ssl = true
+  config.force_ssl = false
 
   # デフォルトのヘルスチェックエンドポイントに対する HTTP→HTTPS のリダイレクトをスキップします。
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }

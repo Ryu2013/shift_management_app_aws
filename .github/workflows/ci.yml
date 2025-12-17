@@ -1,14 +1,14 @@
-name: CI
+name: CI/CD Pipeline
 
 on:
-  pull_request:
   push:
     branches: [ main ]
+  pull_request:
 
 jobs:
+  # === 1. セキュリティチェック ===
   scan_ruby:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,9 +19,10 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
+      - name: Scan for security vulnerabilities
         run: bin/brakeman --no-pager
 
+  # === 2. コードスタイルのチェック ===
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -34,27 +35,28 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Lint code for consistent style
+      - name: Lint code
         run: bin/rubocop -f github
 
+  # === 3. テスト実行 (RSpec) ===
   test:
     runs-on: ubuntu-latest
-
+    # DBとRedisをサービスとして立ち上げる
     services:
       postgres:
-        image: postgres
+        image: postgres:14 # バージョンはEC2と合わせるのが理想
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: password
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
-      # redis:
-      #   image: redis
-      #   ports:
-      #     - 6379:6379
-      #   options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Install packages
@@ -75,21 +77,20 @@ jobs:
           node-version: '20'
           cache: 'yarn'
 
-      - name: Enable Corepack (Yarn)
-        run: corepack enable
+      - name: Enable Corepack & Install JS deps
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile
 
-      - name: Install JS deps
-        run: yarn install --frozen-lockfile
-
-      - name: Build JS
+      - name: Build JS (Precompile for test)
         run: yarn build
 
-      - name: Run RSpec tests (headless Chrome)
+      - name: Run RSpec tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}  
-          REDIRECT_HOST: ${{ secrets.REDIRECT_HOST }}
+          DATABASE_URL: postgres://postgres:password@localhost:5432
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          TZ: Asia/Tokyo # タイムゾーンを日本に
         run: |
           bin/rails db:test:prepare
           bundle exec rspec
@@ -99,5 +100,40 @@ jobs:
         if: failure()
         with:
           name: screenshots
-          path: ${{ github.workspace }}/tmp/capybara
+          path: tmp/capybara
           if-no-files-found: ignore
+
+  # === 4. 自動デプロイ (テストが受かったら実行) ===
+  deploy:
+    needs: [scan_ruby, lint, test] # これら全てが成功しないと実行されない
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' # mainブランチへのpushのときだけ実行
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # アプリのディレクトリに移動
+            cd /var/www/shift_management_app_aws
+            
+            # 最新コードを取得
+            git pull origin main
+            
+            # 設定読み込み
+            source ~/.bash_profile
+            
+            # Gemのインストール
+            bundle install --deployment --without development test
+            
+            # データベースの更新
+            bundle exec rails db:migrate RAILS_ENV=production
+            
+            # アセット(JS/CSS)のコンパイル
+            bundle exec rails assets:precompile RAILS_ENV=production
+            
+            # サーバー再起動 (パスワードなしsudoが必要)
+            sudo systemctl restart shift_app
