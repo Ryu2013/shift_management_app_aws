@@ -5,6 +5,11 @@ on:
     branches: [ main ]
   pull_request:
 
+# === 【重要】OIDC認証に必要な権限設定 ===
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   # === 1. セキュリティチェック ===
   scan_ruby:
@@ -41,10 +46,9 @@ jobs:
   # === 3. テスト実行 (RSpec) ===
   test:
     runs-on: ubuntu-latest
-    # DBとRedisをサービスとして立ち上げる
     services:
       postgres:
-        image: postgres:14 # バージョンはEC2と合わせるのが理想
+        image: postgres:14
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
@@ -90,8 +94,8 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:password@localhost:5432
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          REDIRECT_HOST: ${{ secrets.REDIRECT_HOST }} 
-          TZ: Asia/Tokyo # タイムゾーンを日本に
+          REDIRECT_HOST: ${{ secrets.REDIRECT_HOST }}
+          TZ: Asia/Tokyo
         run: |
           bin/rails db:test:prepare
           bundle exec rspec
@@ -104,37 +108,36 @@ jobs:
           path: tmp/capybara
           if-no-files-found: ignore
 
-  # === 4. 自動デプロイ (テストが受かったら実行) ===
+  # === 4. 自動デプロイ (SSM経由) ===
   deploy:
-    needs: [scan_ruby, lint, test] # これら全てが成功しないと実行されない
+    needs: [scan_ruby, lint, test]
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # mainブランチへのpushのときだけ実行
+    if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # AWSへのログイン (IAMロールを使用)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            # アプリのディレクトリに移動
-            cd /var/www/shift_management_app_aws
-            
-            # 最新コードを取得
-            git pull origin main
-            
-            # 設定読み込み
-            source ~/.bash_profile
-            
-            # Gemのインストール
-            bundle install --deployment --without development test
-            
-            # データベースの更新
-            bundle exec rails db:migrate RAILS_ENV=production
-            
-            # アセット(JS/CSS)のコンパイル
-            bundle exec rails assets:precompile RAILS_ENV=production
-            
-            # サーバー再起動 (パスワードなしsudoが必要)
-            sudo systemctl restart shift_app
+          role-to-assume: arn:aws:iam::620423424164:role/GitHubActions-Deploy-Role
+          aws-region: ap-northeast-1
+
+      # SSMを使ってデプロイコマンドを送信
+      - name: Deploy via SSM Send-Command
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=tag:Name,Values=care-shift-ec2" \
+            --comment "Auto deployment from GitHub Actions" \
+            --parameters 'commands=[
+              "cd /var/www/shift_management_app_aws",
+              "git pull origin main",
+              "source /home/ec2-user/.bash_profile",
+              "bundle install --deployment --without development test",
+              "bundle exec rails db:migrate RAILS_ENV=production",
+              "bundle exec rails assets:precompile RAILS_ENV=production",
+              "sudo systemctl restart shift_app"
+            ]' \
+            --output text
