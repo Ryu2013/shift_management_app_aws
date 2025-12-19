@@ -98,8 +98,12 @@ PC は得意でない前提で、学習コストゼロ・入力の手戻りゼ�
 | **国際化**         | Rails-i18n                                         |
 | **コンテナ化**     | Docker / Docker Compose                            |
 | **セキュリティ**   | Brakeman                                           |
+| **外部決算**  | Stripe                                  　　　　　　　  |
+| **定期実行**  | rake/systemd timer                                  　　　　　　　  |
 | **テストツール**   | RSpec（※開発初期は Minitest） / FactoryBot / Capybara |
 
+## インフライメージ
+[![Image from Gyazo](https://gyazo.com/55192e8f2c449921d754307d4f6260e9.jpg)](https://gyazo.com/55192e8f2c449921d754307d4f6260e9)
 
 ## 画面推移図
 https://www.figma.com/design/W7vW42qlox6ldEw0ebuMWa/shift_management_app?node-id=0-1&t=oPAAtNsYlm8YZgVm-1
