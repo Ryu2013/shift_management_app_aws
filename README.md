@@ -103,7 +103,7 @@ PC は得意でない前提で、学習コストゼロ・入力の手戻りゼ�
 | **テストツール**   | RSpec（※開発初期は Minitest） / FactoryBot / Capybara |
 
 ## インフライメージ
-[![Image from Gyazo](https://gyazo.com/55192e8f2c449921d754307d4f6260e9.jpg)](https://gyazo.com/55192e8f2c449921d754307d4f6260e9)
+[![Image from Gyazo](https://gyazo.com/6c9b6edf2bb7f5a2bcbd4ce5895222d0.jpg)](https://gyazo.com/6c9b6edf2bb7f5a2bcbd4ce5895222d0)
 
 ## 画面推移図
 https://www.figma.com/design/W7vW42qlox6ldEw0ebuMWa/shift_management_app?node-id=0-1&t=oPAAtNsYlm8YZgVm-1
