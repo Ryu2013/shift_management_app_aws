@@ -5,7 +5,7 @@ gem "rails", "~> 8.1.1"
 # Railsの元々のアセットパイプライン [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Active Recordのデータベースとしてpostgresqlを使用
-gem "pg", "~> 1.1"
+gem "pg", "~> 1.6"
 # Pumaウェブサーバーを使用 [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # JavaScriptのバンドル(結合)とトランスパイル(変換) [https://github.com/rails/jsbundling-rails]
