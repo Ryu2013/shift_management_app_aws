@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Railsの最新版（edge）を使用する場合: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.1"
+gem "rails", "~> 8.1.2"
 # Railsの元々のアセットパイプライン [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Active Recordのデータベースとしてpostgresqlを使用
